@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-rest-template/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-di/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-clr/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-component-scan/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-rest-template-builder/pom.xml" />
+        <option value="$PROJECT_DIR$/05/hajiboot2-markdown-printer-autowired-removed/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
+</project>

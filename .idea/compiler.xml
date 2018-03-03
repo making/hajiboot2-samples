@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="hajiboot2-markdown-printer" />
+        <module name="hajiboot2-markdown-printer (1)" />
+        <module name="hajiboot2-markdown-printer (2)" />
+        <module name="hajiboot2-markdown-printer (3)" />
+        <module name="hajiboot2-markdown-printer (4)" />
+        <module name="hajiboot2-markdown-printer (5)" />
+        <module name="hajiboot2-markdown-printer (6)" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hajiboot2-markdown-printer" target="1.8" />
+      <module name="hajiboot2-markdown-printer (1)" target="1.8" />
+      <module name="hajiboot2-markdown-printer (2)" target="1.8" />
+      <module name="hajiboot2-markdown-printer (3)" target="1.8" />
+      <module name="hajiboot2-markdown-printer (4)" target="1.8" />
+      <module name="hajiboot2-markdown-printer (5)" target="1.8" />
+      <module name="hajiboot2-markdown-printer (6)" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

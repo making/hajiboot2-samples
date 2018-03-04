@@ -24,7 +24,7 @@ public class Hajiboot2MarkdownPrinterApplicationTests {
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class);
 		assertThat(capture.toString())
 				.contains("<p>Hello <strong>Spring Boot</strong></p>");
-		assertThat(capture.toString()).doesNotContain("RestTemplate");
+		assertThat(capture.toString()).contains("RestTemplate");
 	}
 
 }

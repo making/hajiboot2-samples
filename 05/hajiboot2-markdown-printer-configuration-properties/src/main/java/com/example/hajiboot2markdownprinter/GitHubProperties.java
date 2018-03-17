@@ -6,13 +6,13 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "github")
 public class GitHubProperties {
-	private String apiToken;
+	private String accessToken;
 
-	public String getApiToken() {
-		return apiToken;
+	public String getAccessToken() {
+		return accessToken;
 	}
 
-	public void setApiToken(String apiToken) {
-		this.apiToken = apiToken;
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 }

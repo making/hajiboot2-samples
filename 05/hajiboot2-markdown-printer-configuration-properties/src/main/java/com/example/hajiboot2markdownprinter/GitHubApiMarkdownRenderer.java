@@ -15,7 +15,7 @@ public class GitHubApiMarkdownRenderer implements MarkdownRenderer {
 		this.restTemplate = restTemplateBuilder
 				.interceptors((request, body, execution) -> {
 					request.getHeaders().add("Authorization",
-							"token " + props.getApiToken());
+							"token " + props.getAccessToken());
 					return execution.execute(request, body);
 				}).build();
 	}

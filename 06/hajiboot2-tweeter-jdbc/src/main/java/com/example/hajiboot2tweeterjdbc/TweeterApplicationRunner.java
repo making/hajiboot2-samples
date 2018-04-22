@@ -39,6 +39,6 @@ public class TweeterApplicationRunner implements ApplicationRunner {
 				(rs, i) -> new Tweet(UUID.fromString(rs.getString("uuid")),
 						rs.getString("text"), rs.getString("username"),
 						rs.getTimestamp("created_at").toInstant()));
-		tweets.forEach(tweeter -> System.out.println(tweeter));
+		tweets.forEach(tweet -> System.out.println(tweet));
 	}
 }

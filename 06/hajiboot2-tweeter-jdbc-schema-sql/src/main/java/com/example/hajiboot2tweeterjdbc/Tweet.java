@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.UUID;
 
-public class Tweeter implements Serializable {
+public class Tweet implements Serializable {
 	private final UUID uuid;
 	private final String text;
 	private final String username;
 	private final Instant createdAt;
 
-	public Tweeter(UUID uuid, String text, String username, Instant createdAt) {
+	public Tweet(UUID uuid, String text, String username, Instant createdAt) {
 		this.uuid = uuid;
 		this.text = text;
 		this.username = username;
@@ -35,7 +35,7 @@ public class Tweeter implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Tweeter{" + "uuid=" + uuid + ", text='" + text + '\'' + ", username='"
+		return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", username='"
 				+ username + '\'' + ", createdAt=" + createdAt + '}';
 	}
 }

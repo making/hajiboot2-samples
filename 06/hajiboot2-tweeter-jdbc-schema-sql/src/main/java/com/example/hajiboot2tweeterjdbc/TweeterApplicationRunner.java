@@ -28,9 +28,9 @@ public class TweeterApplicationRunner implements ApplicationRunner {
 		Long count = this.jdbcTemplate.queryForObject("SELECT count(*) FROM tweets",
 				Long.class);
 		System.out.println("Number of tweets: " + count);
-		List<Tweeter> tweets = this.jdbcTemplate.query(
+		List<Tweet> tweets = this.jdbcTemplate.query(
 				"SELECT uuid, text, username, created_at FROM tweets",
-				(rs, i) -> new Tweeter(UUID.fromString(rs.getString("uuid")),
+				(rs, i) -> new Tweet(UUID.fromString(rs.getString("uuid")),
 						rs.getString("text"), rs.getString("username"),
 						rs.getTimestamp("created_at").toInstant()));
 		tweets.forEach(tweeter -> System.out.println(tweeter));

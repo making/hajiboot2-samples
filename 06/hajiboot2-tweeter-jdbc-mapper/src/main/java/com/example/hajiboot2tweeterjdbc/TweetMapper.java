@@ -14,11 +14,11 @@ public class TweetMapper {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
-	public int insert(Tweet tweeter) {
+	public int insert(Tweet tweet) {
 		return this.jdbcTemplate.update(
 				"INSERT INTO tweets(uuid, text, username, created_at) VALUES(?,?,?,?)",
-				tweeter.getUuid(), tweeter.getText(), tweeter.getUsername(),
-				tweeter.getCreatedAt());
+				tweet.getUuid(), tweet.getText(), tweet.getUsername(),
+				tweet.getCreatedAt());
 	}
 
 	public long count() {

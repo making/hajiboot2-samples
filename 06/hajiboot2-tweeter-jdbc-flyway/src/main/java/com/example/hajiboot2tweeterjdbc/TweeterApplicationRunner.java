@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class TweeterApplicationRunner implements ApplicationRunner {
@@ -17,6 +18,7 @@ public class TweeterApplicationRunner implements ApplicationRunner {
 	}
 
 	@Override
+	@Transactional
 	public void run(ApplicationArguments args) throws Exception {
 		this.tweetMapper
 				.insert(new Tweet(UUID.randomUUID(), "Demo1", "making", Instant.now()));

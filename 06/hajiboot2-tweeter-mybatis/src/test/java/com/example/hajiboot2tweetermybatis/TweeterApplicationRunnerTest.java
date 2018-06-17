@@ -6,21 +6,16 @@ import java.util.UUID;
 
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import org.springframework.boot.DefaultApplicationArguments;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.rule.OutputCapture;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class Hajiboot2TweeterMyBatisApplicationTests {
+public class TweeterApplicationRunnerTest {
 
 	@Rule
 	public OutputCapture capture = new OutputCapture();

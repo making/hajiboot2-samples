@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.hajiboot2tweetermybatis.TweetMapper">
+    <insert id="insert" parameterType="com.example.hajiboot2tweetermybatis.Tweet">
+        INSERT INTO tweets (uuid, text, username, created_at) VALUES (#{uuid}, #{text}, #{username}, #{createdAt})
+    </insert>
+
+    <select id="count" resultType="long">
+        SELECT count(*)
+        FROM tweets
+    </select>
+
+    <select id="findAll" resultType="com.example.hajiboot2tweetermybatis.Tweet">
+        SELECT
+            uuid,
+            text,
+            username,
+            created_at
+        FROM tweets
+    </select>
+</mapper>

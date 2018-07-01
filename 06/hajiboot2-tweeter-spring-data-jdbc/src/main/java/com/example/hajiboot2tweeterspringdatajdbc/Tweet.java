@@ -23,8 +23,8 @@ public class Tweet implements Serializable {
 		this.createdAt = createdAt;
 	}
 
-	public void setUuid(UUID uuid) {
-		this.uuid = uuid;
+	public void generateUuid() {
+		this.uuid = UUID.randomUUID();
 	}
 
 	public UUID getUuid() {

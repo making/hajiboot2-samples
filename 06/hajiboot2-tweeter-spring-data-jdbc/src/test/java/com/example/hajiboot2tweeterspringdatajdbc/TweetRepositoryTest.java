@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,7 @@ public class TweetRepositoryTest {
 		assertThat(tweets).containsExactly(tweet1, tweet2);
 	}
 
+	@Configuration
 	static class Config {
 		@Bean
 		public UuidAsIdTypeEnabler uuidAsIdTypeEnabler() {

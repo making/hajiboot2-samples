@@ -1,7 +1,6 @@
 package com.example.hajiboot2tweeterspringdatajdbc;
 
 import java.time.Instant;
-import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,16 +39,6 @@ public class TweetRepositoryTest {
 
 		Iterable<Tweet> tweets = tweetRepository.findAll();
 		assertThat(tweets).containsExactly(tweet1, tweet2);
-
-		{
-			Optional<Tweet> tweet = tweetRepository.findById(tweet1.getUuid());
-			tweet.ifPresent(System.out::println);
-			tweet.map(t -> tweetRepository.save(new Tweet(tweet1.getUuid(),
-					tweet1.getText(), tweet1.getUsername(), tweet1.getCreatedAt())));
-		}
-
-		Optional<Tweet> tweet = tweetRepository.findById(tweet1.getUuid());
-		tweet.ifPresent(System.out::println);
 	}
 
 	static class Config {

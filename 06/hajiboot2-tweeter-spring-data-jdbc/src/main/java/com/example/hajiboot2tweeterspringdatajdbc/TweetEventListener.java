@@ -10,7 +10,10 @@ public class TweetEventListener {
 	public void beforeSaveTweet(BeforeSaveEvent event) {
 		Object entity = event.getEntity();
 		if (entity instanceof Tweet) {
-			((Tweet) entity).generateUuid();
+			Tweet tweet = (Tweet) entity;
+			if (tweet.getUuid() == null) {
+				tweet.generateUuid();
+			}
 		}
 	}
 }

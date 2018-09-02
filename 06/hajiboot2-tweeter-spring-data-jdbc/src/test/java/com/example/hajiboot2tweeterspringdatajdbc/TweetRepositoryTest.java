@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
+import org.springframework.data.jdbc.repository.config.JdbcConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,12 +45,8 @@ public class TweetRepositoryTest {
 	}
 
 	@Configuration
+	@Import(JdbcConfiguration.class)
 	static class Config {
-		@Bean
-		public UuidAsIdTypeEnabler uuidAsIdTypeEnabler() {
-			return new UuidAsIdTypeEnabler();
-		}
-
 		@Bean
 		public TweetEventListener tweetEventListener() {
 			return new TweetEventListener();

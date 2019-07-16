@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,4 +9,5 @@ public class Hajiboot2MarkdownPrinterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class, args);
 	}
+
 }

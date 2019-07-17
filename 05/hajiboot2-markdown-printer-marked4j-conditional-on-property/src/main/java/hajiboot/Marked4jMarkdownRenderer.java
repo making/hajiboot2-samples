@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import am.ik.marked4j.Marked;
 import am.ik.marked4j.MarkedBuilder;
@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "hajiboot2.markdown.type", havingValue = "marked4j", matchIfMissing = true)
+@ConditionalOnProperty(name = "hajiboot2.markdown.type", havingValue = "marked4j", matchIfMissing = true) // (1)
 public class Marked4jMarkdownRenderer implements MarkdownRenderer {
 	private final Marked marked = new MarkedBuilder().build();
 

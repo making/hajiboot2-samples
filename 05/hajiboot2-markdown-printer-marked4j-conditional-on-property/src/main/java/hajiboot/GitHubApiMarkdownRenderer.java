@@ -1,11 +1,11 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 @Component
-@ConditionalOnProperty(name = "hajiboot2.markdown.type", havingValue = "github")
+@ConditionalOnProperty(name = "hajiboot2.markdown.type", havingValue = "github") // (1)
 public class GitHubApiMarkdownRenderer implements MarkdownRenderer {
 	private final RestTemplate restTemplate;
 

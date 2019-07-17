@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +14,7 @@ public class MarkdownPrinter {
 	private final MarkdownRenderer renderer;
 
 	public MarkdownPrinter(
-			@Qualifier("gitHubApiMarkdownRenderer") MarkdownRenderer renderer) {
+			@Qualifier("gitHubApiMarkdownRenderer") /* (1) */ MarkdownRenderer renderer) {
 		this.renderer = renderer;
 	}
 

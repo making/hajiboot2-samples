@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,8 +10,13 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class Hajiboot2MarkdownPrinterApplication {
 	@Bean
-	public CommandLineRunner commandLineRunner(MarkdownPrinter markdownPrinter) {
-		return args -> markdownPrinter.print(System.in);
+	public CommandLineRunner commandLineRunner(MarkdownPrinter markdownPrinter) { // (1)
+		return new CommandLineRunner() {
+			@Override
+			public void run(String... args) throws Exception {
+				markdownPrinter.print(System.in);
+			}
+		};
 	}
 
 	@Bean
@@ -24,10 +29,10 @@ public class Hajiboot2MarkdownPrinterApplication {
 		return new GitHubApiMarkdownRenderer(restTemplate);
 	}
 
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
 
 	public static void main(String[] args) {
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class, args);

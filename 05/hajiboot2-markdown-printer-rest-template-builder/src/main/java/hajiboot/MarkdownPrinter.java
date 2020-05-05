@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ public class MarkdownPrinter {
 	public void print(InputStream stream) {
 		System.out.print("Input markdown: ");
 		try {
-			String markdown = StreamUtils.copyToString(stream, StandardCharsets.UTF_8);
+			String markdown = StreamUtils.copyToString(stream, StandardCharsets.UTF_8); // (1)
 			String html = this.renderer.render(markdown);
 			System.out.println(html);
 		}

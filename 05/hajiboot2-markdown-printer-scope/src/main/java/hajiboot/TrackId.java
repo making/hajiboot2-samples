@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -18,6 +18,10 @@ public class TrackId {
 
 	public long asLong() {
 		return value;
+	}
+
+	static void reset() {
+		counter.set(0);
 	}
 
 	@Override

@@ -1,25 +1,25 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 
-import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 
-public class MarkdownPrinterTest {
-	@Rule
-	public OutputCapture capture = new OutputCapture();
+@ExtendWith(OutputCaptureExtension.class)
+class MarkdownPrinterTest {
 
 	@Test
-	public void print() {
+	void print(CapturedOutput capture) {
 		MarkdownRenderer markdownRenderer = Mockito.mock(MarkdownRenderer.class);
 		given(markdownRenderer.render(anyString())).willReturn("<p>Markdown!</p>");
 

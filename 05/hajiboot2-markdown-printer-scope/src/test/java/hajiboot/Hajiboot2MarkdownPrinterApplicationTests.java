@@ -1,22 +1,25 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class Hajiboot2MarkdownPrinterApplicationTests {
-	@Rule
-	public OutputCapture capture = new OutputCapture();
+@ExtendWith(OutputCaptureExtension.class)
+// @SpringBootTest
+class Hajiboot2MarkdownPrinterApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	void contextLoads(CapturedOutput capture) {
+		TrackId.reset();
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class);

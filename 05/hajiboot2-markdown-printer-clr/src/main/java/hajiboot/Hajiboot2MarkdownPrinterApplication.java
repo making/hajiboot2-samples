@@ -29,10 +29,10 @@ public class Hajiboot2MarkdownPrinterApplication {
 		return new GitHubApiMarkdownRenderer(restTemplate);
 	}
 
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
-    }
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class, args);

@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterjdbc;
+package hajiboot;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -42,18 +42,14 @@ public class Tweet implements Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Tweet tweet = (Tweet) o;
-		return Objects.equals(uuid, tweet.uuid) && Objects.equals(text, tweet.text)
-				&& Objects.equals(username, tweet.username)
-				&& Objects.equals(createdAt, tweet.createdAt);
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		final Tweet tweet = (Tweet) o;
+		return Objects.equals(uuid, tweet.uuid);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(uuid, text, username, createdAt);
+		return Objects.hash(uuid);
 	}
 }

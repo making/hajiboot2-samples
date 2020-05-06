@@ -2,6 +2,7 @@ package hajiboot;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Tweet implements Serializable {
@@ -37,5 +38,18 @@ public class Tweet implements Serializable {
 	public String toString() {
 		return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", username='"
 				+ username + '\'' + ", createdAt=" + createdAt + '}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		final Tweet tweet = (Tweet) o;
+		return Objects.equals(uuid, tweet.uuid);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(uuid);
 	}
 }

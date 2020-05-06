@@ -1,26 +1,28 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
-
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.springframework.beans.factory.UnsatisfiedDependencyException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBindException;
-import org.springframework.boot.test.rule.OutputCapture;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-public class Hajiboot2MarkdownPrinterApplicationTests {
-	@Rule
-	public OutputCapture capture = new OutputCapture();
+@ExtendWith(OutputCaptureExtension.class)
+// @SpringBootTest
+class Hajiboot2MarkdownPrinterApplicationTests {
 
 	@Test
-	public void contextLoads() {
+	void contextLoads(CapturedOutput capture) {
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class);
@@ -30,7 +32,7 @@ public class Hajiboot2MarkdownPrinterApplicationTests {
 	}
 
 	@Test
-	public void contextLoadsMarkdownTypeMarked4j() {
+	void contextLoadsMarkdownTypeMarked4j(CapturedOutput capture) {
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));
 		SpringApplication.run(Hajiboot2MarkdownPrinterApplication.class,
@@ -41,7 +43,7 @@ public class Hajiboot2MarkdownPrinterApplicationTests {
 	}
 
 	@Test
-	public void contextLoadsMarkdownTypeGithub_invalid_token() {
+	void contextLoadsMarkdownTypeGithub_invalid_token(CapturedOutput capture) {
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));
 		try {
@@ -53,13 +55,13 @@ public class Hajiboot2MarkdownPrinterApplicationTests {
 			Throwable cause = e.getCause();
 			assertThat(cause).isNotNull();
 			assertThat(cause).isInstanceOf(HttpClientErrorException.class);
-			assertThat(cause.getMessage()).isEqualTo("401 Unauthorized");
+			assertThat(cause.getMessage()).contains("401 Unauthorized");
 		}
 		assertThat(capture.toString()).contains("RestTemplate");
 	}
 
 	@Test
-	public void contextLoadsMarkdownTypeGithub_empty_token() {
+	void contextLoadsMarkdownTypeGithub_empty_token(CapturedOutput capture) {
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));
 		try {
@@ -78,7 +80,7 @@ public class Hajiboot2MarkdownPrinterApplicationTests {
 	}
 
 	// @Test // set your token and remove this comment
-	public void contextLoadsMarkdownTypeGithub_valid_token() {
+	void contextLoadsMarkdownTypeGithub_valid_token(CapturedOutput capture) {
 		String token = "YOUR-TOKEN";
 		System.setIn(new ByteArrayInputStream(
 				"Hello **Spring Boot**".getBytes(StandardCharsets.UTF_8)));

@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class DetectSlowExecutionAspect {
 	private final Logger log = LoggerFactory.getLogger(DetectSlowExecutionAspect.class);
 
-	@Around("execution (@com.example.hajiboot2markdownprinter.DetectSlowExecution * *.*(..))")
+	@Around("execution (@hajiboot.DetectSlowExecution * *.*(..))")
 	public Object detect(ProceedingJoinPoint pjp) throws Throwable {
 		Method method = ((MethodSignature) pjp.getSignature()).getMethod();
 		DetectSlowExecution detectSlowExecution = AnnotationUtils.getAnnotation(method,

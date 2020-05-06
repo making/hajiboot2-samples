@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

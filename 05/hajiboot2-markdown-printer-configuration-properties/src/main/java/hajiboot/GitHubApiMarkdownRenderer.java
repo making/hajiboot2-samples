@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;

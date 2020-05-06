@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import am.ik.marked4j.Marked;
 import am.ik.marked4j.MarkedBuilder;

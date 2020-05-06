@@ -1,14 +1,13 @@
-package com.example.hajiboot2markdownprinter;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+package hajiboot;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
-
 import org.springframework.boot.test.rule.OutputCapture;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;

@@ -1,7 +1,7 @@
 package hajiboot;
 
-        import java.time.Instant;
-        import java.util.Objects;
+import java.time.Instant;
+import java.util.Objects;
 
 public class Tweeter {
     private final String username;

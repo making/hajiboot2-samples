@@ -8,13 +8,13 @@ import java.util.UUID;
 public class Tweet implements Serializable {
 	private final UUID uuid;
 	private final String text;
-	private final String username;
+	private final Tweeter tweeter;
 	private final Instant createdAt;
 
-	public Tweet(UUID uuid, String text, String username, Instant createdAt) {
+	public Tweet(UUID uuid, String text, Tweeter tweeter, Instant createdAt) {
 		this.uuid = uuid;
 		this.text = text;
-		this.username = username;
+		this.tweeter = tweeter;
 		this.createdAt = createdAt;
 	}
 
@@ -26,8 +26,8 @@ public class Tweet implements Serializable {
 		return text;
 	}
 
-	public String getUsername() {
-		return username;
+	public Tweeter getTweeter() {
+		return tweeter;
 	}
 
 	public Instant getCreatedAt() {
@@ -36,8 +36,8 @@ public class Tweet implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", username='"
-				+ username + '\'' + ", createdAt=" + createdAt + '}';
+		return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", tweeter="
+				+ tweeter + ", createdAt=" + createdAt + '}';
 	}
 
 	@Override

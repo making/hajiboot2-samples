@@ -1,30 +1,33 @@
-package com.example.hajiboot2tweeterjdbc;
+package hajiboot;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@JdbcTest
-@Transactional
+@JdbcTest // (1)
+@Transactional // (2)
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL) /* (3) */
 public class TweetMapperTest {
-	@Autowired
-	TweetMapper tweetMapper;
+	private final TweetMapper tweetMapper;
+
+	public TweetMapperTest(TweetMapper tweetMapper /* (3) */) {
+		this.tweetMapper = tweetMapper;
+	}
 
 	@Test
-	public void insertAndCount() {
+	void insertAndCount() {
 		int updated = tweetMapper
 				.insert(new Tweet(UUID.randomUUID(), "test", "foo", Instant.now()));
 		assertThat(updated).isEqualTo(1);
@@ -33,7 +36,7 @@ public class TweetMapperTest {
 	}
 
 	@Test
-	public void insertAndFindAll() {
+	void insertAndFindAll() {
 		Tweet tweet1 = new Tweet(UUID.randomUUID(), "test", "foo", Instant.now());
 		Tweet tweet2 = new Tweet(UUID.randomUUID(), "test", "foo", Instant.now());
 
@@ -43,12 +46,13 @@ public class TweetMapperTest {
 		assertThat(updated2).isEqualTo(1);
 
 		List<Tweet> tweets = tweetMapper.findAll();
-		assertThat(tweets).containsExactly(tweet1, tweet2);
+		Assertions.assertThat(tweets).containsExactly(tweet1, tweet2);
 	}
 
-	static class Config {
+	@Configuration
+	static class Config { // (4)
 		@Bean
-		public TweetMapper tweetMapper(JdbcTemplate jdbcTemplate) {
+		public TweetMapper tweetMapperForTest(JdbcTemplate jdbcTemplate) {
 			return new TweetMapper(jdbcTemplate);
 		}
 	}

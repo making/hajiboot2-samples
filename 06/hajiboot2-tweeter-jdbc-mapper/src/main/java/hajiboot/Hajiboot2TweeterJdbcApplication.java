@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterjdbc;
+package hajiboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

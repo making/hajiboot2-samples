@@ -11,12 +11,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestConstructor;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Transactional
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 public class TweetMapperTest {
 	private final TweetMapper tweetMapper;

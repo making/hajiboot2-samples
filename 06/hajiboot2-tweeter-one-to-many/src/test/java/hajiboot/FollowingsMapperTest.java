@@ -15,17 +15,24 @@ import static org.assertj.core.api.Assertions.assertThat;
         "classpath:/delete-test-tweeter.sql",
         "classpath:/insert-test-tweeter.sql",
         "classpath:/insert-test-following.sql"})
-public class FollowingMapperTest {
-    private final FollowingMapper followingMapper;
+public class FollowingsMapperTest {
+    private final FollowingsMapper followingsMapper;
 
-    public FollowingMapperTest(JdbcTemplate jdbcTemplate) {
-        this.followingMapper = new FollowingMapper(jdbcTemplate);
+    public FollowingsMapperTest(JdbcTemplate jdbcTemplate) {
+        this.followingsMapper = new FollowingsMapper(jdbcTemplate);
     }
 
     @Test
     void findFollowingsByUsername() {
-        final Followings followings = this.followingMapper.findFollowingsByUsername("foo");
+        final Followings followings = this.followingsMapper.findFollowingsByUsername("foo");
         assertThat(followings.getUsername()).isEqualTo("foo");
         assertThat(followings.getTweeters()).containsExactly(new Tweeter("foo4"), new Tweeter("foo3"), new Tweeter("foo2"));
+    }
+
+    @Test
+    void findFollowersByUsername() {
+        final Followings followings = this.followingsMapper.findFollowersByUsername("foo");
+        assertThat(followings.getUsername()).isEqualTo("foo");
+        assertThat(followings.getTweeters()).containsExactly(new Tweeter("foo4"), new Tweeter("foo2"));
     }
 }

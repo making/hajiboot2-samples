@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweetermybatis;
+package hajiboot;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

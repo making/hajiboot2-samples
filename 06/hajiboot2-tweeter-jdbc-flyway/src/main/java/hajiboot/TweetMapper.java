@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterjdbc;
+package hajiboot;
 
 import java.util.List;
 import java.util.UUID;

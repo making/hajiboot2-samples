@@ -21,10 +21,10 @@ public class TweeterApplicationRunnerTest {
 
 	@Test
 	void contextLoads(CapturedOutput capture) throws Exception {
-		TweetMapper tweetMapper = mock(TweetMapper.class); // (1)
+		TweetMapper tweetMapper = mock(TweetMapper.class);
 
-		given(tweetMapper.count()).willReturn(2L); // (2)
-		given(tweetMapper.insert(any())).willReturn(1); // (3)
+		given(tweetMapper.count()).willReturn(2L);
+		given(tweetMapper.insert(any())).willReturn(1);
 		Instant now = Instant.now();
 		UUID uuid1 = UUID.randomUUID();
 		UUID uuid2 = UUID.randomUUID();

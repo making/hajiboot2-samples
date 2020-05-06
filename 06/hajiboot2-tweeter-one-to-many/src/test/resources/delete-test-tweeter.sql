@@ -1,1 +1,1 @@
-DELETE FROM tweeters WHERE username = 'foo';
+DELETE FROM tweeters WHERE username LiKE 'foo%';

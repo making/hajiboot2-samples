@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterspringdatajdbc;
+package hajiboot;
 
 import org.springframework.data.repository.CrudRepository;
 

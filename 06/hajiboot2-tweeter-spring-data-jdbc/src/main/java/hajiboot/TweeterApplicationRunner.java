@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterspringdatajdbc;
+package hajiboot;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterspringdatajdbc;
+package hajiboot;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.data.relational.core.mapping.event.BeforeSaveEvent;

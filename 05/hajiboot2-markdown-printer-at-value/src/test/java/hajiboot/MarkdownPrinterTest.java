@@ -1,4 +1,4 @@
-package com.example.hajiboot2markdownprinter;
+package hajiboot;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

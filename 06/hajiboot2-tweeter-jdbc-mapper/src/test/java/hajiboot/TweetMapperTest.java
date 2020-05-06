@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
@@ -46,7 +45,7 @@ public class TweetMapperTest {
 		assertThat(updated2).isEqualTo(1);
 
 		List<Tweet> tweets = tweetMapper.findAll();
-		Assertions.assertThat(tweets).containsExactly(tweet1, tweet2);
+		assertThat(tweets).containsExactly(tweet1, tweet2);
 	}
 
 	@Configuration

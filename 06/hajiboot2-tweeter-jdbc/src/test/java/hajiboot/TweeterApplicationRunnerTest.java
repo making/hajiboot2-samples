@@ -13,7 +13,7 @@ public class TweeterApplicationRunnerTest {
 
 	@Test
 	void contextLoads(CapturedOutput capture) {
-		SpringApplication.run(Hajiboot2TweeterJdbcApplication.class);
+		SpringApplication.run(Hajiboot2TweeterApplication.class);
 		String output = capture.toString();
 		assertThat(output).contains("Number of tweets: 2");
 		assertThat(output).containsPattern(

@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class TweetMapper {
@@ -14,6 +15,7 @@ public class TweetMapper {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	@Transactional
 	public int insert(Tweet tweet) {
 		return this.jdbcTemplate.update(
 				"INSERT INTO tweets(uuid, text, username, created_at) VALUES(?,?,?,?)",

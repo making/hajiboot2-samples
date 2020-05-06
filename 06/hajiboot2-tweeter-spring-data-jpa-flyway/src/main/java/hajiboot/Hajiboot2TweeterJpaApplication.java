@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterjpa;
+package hajiboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

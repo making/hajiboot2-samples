@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweeterjpa;
+package hajiboot;
 
 import java.time.Instant;
 import java.util.UUID;

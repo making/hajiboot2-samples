@@ -1,12 +1,12 @@
-package com.example.hajiboot2tweeterjpa;
+package hajiboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Hajiboot2TweeterJpaApplication {
+public class Hajiboot2TweeterApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Hajiboot2TweeterJpaApplication.class, args);
+		SpringApplication.run(Hajiboot2TweeterApplication.class, args);
 	}
 }

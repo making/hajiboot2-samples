@@ -1,38 +1,37 @@
-package com.example.hajiboot2tweeterjpa;
+package hajiboot;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.DefaultApplicationArguments;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.UUID;
 
-import org.junit.Rule;
-import org.junit.Test;
-
-import org.springframework.boot.DefaultApplicationArguments;
-import org.springframework.boot.test.rule.OutputCapture;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+@ExtendWith(OutputCaptureExtension.class)
 public class TweeterApplicationRunnerTest {
 
-	@Rule
-	public OutputCapture capture = new OutputCapture();
-
 	@Test
-	public void contextLoads() throws Exception {
-		TweetRepository tweetRepository = mock(TweetRepository.class);
+	void contextLoads(CapturedOutput capture) throws Exception {
+		TweetRepository TweetRepository = mock(TweetRepository.class);
 
-		given(tweetRepository.count()).willReturn(2L);
+		given(TweetRepository.count()).willReturn(2L);
+		// (1)
 		Instant now = Instant.now();
 		UUID uuid1 = UUID.randomUUID();
 		UUID uuid2 = UUID.randomUUID();
-		given(tweetRepository.findAll())
+		given(TweetRepository.findAll())
 				.willReturn(Arrays.asList(new Tweet(uuid1, "test1", "making", now),
 						new Tweet(uuid2, "test2", "making", now)));
 
 		TweeterApplicationRunner tweeterApplicationRunner = new TweeterApplicationRunner(
-				tweetRepository);
+				TweetRepository);
 		tweeterApplicationRunner.run(new DefaultApplicationArguments(new String[] {}));
 		String output = capture.toString();
 		assertThat(output).contains("Number of tweets: 2");

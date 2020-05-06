@@ -1,4 +1,4 @@
-package com.example.hajiboot2tweetermybatis;
+package hajiboot;
 
 import java.io.Serializable;
 import java.time.Instant;

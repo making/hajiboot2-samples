@@ -1,28 +1,28 @@
-package com.example.hajiboot2tweetermybatis;
+package hajiboot;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
+import org.mybatis.spring.boot.test.autoconfigure.MybatisTest;
+import org.springframework.test.context.TestConstructor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
 @MybatisTest
-@Transactional
+@TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL) /* (1) */
 public class TweetMapperTest {
-	@Autowired
-	TweetMapper tweetMapper;
+	private final TweetMapper tweetMapper;
+
+	public TweetMapperTest(TweetMapper tweetMapper /* (1) */) {
+		this.tweetMapper = tweetMapper;
+	}
+
 
 	@Test
-	public void insertAndCount() {
+	void insertAndCount() {
 		int updated = tweetMapper
 				.insert(new Tweet(UUID.randomUUID(), "test", "foo", Instant.now()));
 		assertThat(updated).isEqualTo(1);
@@ -31,7 +31,7 @@ public class TweetMapperTest {
 	}
 
 	@Test
-	public void insertAndFindAll() {
+	void insertAndFindAll() {
 		Tweet tweet1 = new Tweet(UUID.randomUUID(), "test", "foo", Instant.now());
 		Tweet tweet2 = new Tweet(UUID.randomUUID(), "test", "foo", Instant.now());
 

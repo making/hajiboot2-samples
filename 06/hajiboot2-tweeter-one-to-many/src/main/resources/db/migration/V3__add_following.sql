@@ -2,7 +2,7 @@ CREATE TABLE followings
 (
     follower   VARCHAR(128),
     followee   VARCHAR(128),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP default NOW(),
     PRIMARY KEY (follower, followee)
 );
 

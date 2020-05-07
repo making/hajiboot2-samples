@@ -6,20 +6,20 @@ info:
   license:
     name: Apache 2.0
 servers:
-  - url: 'http://localhost:8080'
+- url: 'http://localhost:8080'
 paths:
   '/tweeters/{username}/tweets':
     parameters:
-      - schema:
-          type: string
-        name: username
-        in: path
-        required: true
-        description: ユーザー名
+    - schema:
+        type: string
+      name: username
+      in: path
+      required: true
+      description: ユーザー名
     get:
       summary: 指定ユーザーのつぶやき取得
       tags:
-        - Tweet
+      - Tweet
       responses:
         '200':
           description: OK
@@ -34,16 +34,16 @@ paths:
       description: 指定したユーザーのつぶやきを取得します。
   '/tweeters/{username}/followers':
     parameters:
-      - schema:
-          type: string
-        name: username
-        in: path
-        required: true
-        description: ユーザー名
+    - schema:
+        type: string
+      name: username
+      in: path
+      required: true
+      description: ユーザー名
     get:
       summary: 指定ユーザーのフォロワー取得
       tags:
-        - Tweeter
+      - Tweeter
       responses:
         '200':
           description: OK
@@ -60,7 +60,7 @@ paths:
     get:
       summary: 指定ユーザーのフォローイング取得
       tags:
-        - Tweeter
+      - Tweeter
       responses:
         '200':
           description: OK
@@ -73,17 +73,17 @@ paths:
       operationId: get-tweeters-username-followings
       description: 指定したユーザーがフォローしているユーザー一覧を取得します。
     parameters:
-      - schema:
-          type: string
-        name: username
-        in: path
-        required: true
-        description: ユーザー名
+    - schema:
+        type: string
+      name: username
+      in: path
+      required: true
+      description: ユーザー名
   '/tweets/{uuid}':
     get:
       summary: 指定つぶやき一件取得
       tags:
-        - Tweet
+      - Tweet
       responses:
         '200':
           description: OK
@@ -94,12 +94,12 @@ paths:
       operationId: get-tweets-uuid
       description: 指定したUUIDのつぶやきを取得します。
     parameters:
-      - schema:
-          type: string
-        name: uuid
-        in: path
-        required: true
-        description: UUID
+    - schema:
+        type: string
+      name: uuid
+      in: path
+      required: true
+      description: UUID
     delete:
       summary: 指定つぶやき一件削除
       operationId: delete-tweets-uuid
@@ -108,7 +108,7 @@ paths:
           description: No Content
       description: 指定したUUIDのつぶやきを削除します。
       tags:
-        - Tweet
+      - Tweet
   /tweets:
     post:
       summary: 自分のつぶやき作成
@@ -132,13 +132,13 @@ paths:
               $ref: '#/components/schemas/TweetForCreate'
       description: 自分のつぶやきを作成します。
       tags:
-        - Tweet
+      - Tweet
     get:
       summary: 自分とフォロワーのつぶやき一覧
       operationId: get-tweets
       description: 自分とフォローしているユーザーのつぶやき一覧を取得します。
       tags:
-        - Tweet
+      - Tweet
       responses:
         '200':
           description: OK
@@ -152,7 +152,7 @@ paths:
     get:
       summary: 自分がフォローしているユーザー一覧取得
       tags:
-        - Tweeter
+      - Tweeter
       responses:
         '200':
           description: OK
@@ -180,7 +180,7 @@ paths:
             schema:
               $ref: '#/components/schemas/TweeterForCreate'
       tags:
-        - Tweeter
+      - Tweeter
 components:
   schemas:
     TweetForRead:
@@ -210,10 +210,10 @@ components:
           description: 作成時刻
           format: date-time
       required:
-        - uuid
-        - text
-        - username
-        - createdAt
+      - uuid
+      - text
+      - username
+      - createdAt
     TweeterForRead:
       title: TweeterForRead
       type: object
@@ -226,7 +226,7 @@ components:
           type: string
           description: ユーザー名
       required:
-        - username
+      - username
     TweeterForCreate:
       title: TweeterForCreate
       type: object
@@ -255,9 +255,9 @@ components:
           format: password
           minLength: 8
       required:
-        - username
-        - email
-        - password
+      - username
+      - email
+      - password
     TweetForCreate:
       title: TweetForCreate
       type: object
@@ -273,4 +273,4 @@ components:
           minLength: 1
           maxLength: 128
       required:
-        - text
+      - text

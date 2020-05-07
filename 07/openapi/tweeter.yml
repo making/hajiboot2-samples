@@ -134,9 +134,9 @@ paths:
       tags:
         - Tweet
     get:
-      summary: 自分のつぶやき一覧
+      summary: 自分とフォロワーのつぶやき一覧
       operationId: get-tweets
-      description: 自分のつぶやき一覧を取得します。
+      description: 自分とフォローしているユーザーのつぶやき一覧を取得します。
       tags:
         - Tweet
       responses:
@@ -191,7 +191,7 @@ components:
           uuid: d188c790-8c28-4507-b8cd-e422d6073a93
           text: 'Hello World!'
           username: making
-          createdAt: '2020-05-06T14:20:42'
+          createdAt: '2020-05-06T05:38:55.297765Z'
       description: つぶやき(参照用)
       properties:
         uuid:

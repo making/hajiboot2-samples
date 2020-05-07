@@ -1,4 +1,6 @@
-package hajiboot;
+package hajiboot.followings;
+
+import hajiboot.tweeter.Tweeter;
 
 import java.util.Collections;
 import java.util.List;

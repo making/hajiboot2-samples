@@ -1,16 +1,18 @@
-package hajiboot;
+package hajiboot.tweet;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import hajiboot.tweet.Tweet;
+import hajiboot.tweet.TweetMapper;
+import hajiboot.tweeter.Tweeter;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

@@ -1,5 +1,8 @@
-package hajiboot;
+package hajiboot.followings;
 
+import hajiboot.followings.Followings;
+import hajiboot.followings.FollowingsMapper;
+import hajiboot.tweeter.Tweeter;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;

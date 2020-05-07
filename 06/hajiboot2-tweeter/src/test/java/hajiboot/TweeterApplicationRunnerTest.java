@@ -1,5 +1,9 @@
 package hajiboot;
 
+import hajiboot.tweet.Tweet;
+import hajiboot.tweet.TweetMapper;
+import hajiboot.tweeter.Tweeter;
+import hajiboot.tweeter.TweeterMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.DefaultApplicationArguments;

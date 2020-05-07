@@ -1,4 +1,4 @@
-package hajiboot;
+package hajiboot.tweeter;
 
 import java.time.Instant;
 import java.util.Objects;

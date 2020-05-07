@@ -1,4 +1,6 @@
-package hajiboot;
+package hajiboot.tweet;
+
+import hajiboot.tweeter.Tweeter;
 
 import java.io.Serializable;
 import java.time.Instant;

@@ -1,5 +1,6 @@
-package hajiboot;
+package hajiboot.followings;
 
+import hajiboot.tweeter.Tweeter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;

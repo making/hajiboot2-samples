@@ -4,6 +4,10 @@ import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
+import hajiboot.tweet.Tweet;
+import hajiboot.tweet.TweetMapper;
+import hajiboot.tweeter.Tweeter;
+import hajiboot.tweeter.TweeterMapper;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -15,7 +19,7 @@ public class TweeterApplicationRunner implements ApplicationRunner {
 	private final TweeterMapper tweeterMapper;
 
 	public TweeterApplicationRunner(TweetMapper tweetMapper,
-									TweeterMapper tweeterMapper) {
+                                    TweeterMapper tweeterMapper) {
 		this.tweetMapper = tweetMapper;
 		this.tweeterMapper = tweeterMapper;
 	}

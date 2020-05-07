@@ -1,8 +1,9 @@
-package hajiboot;
+package hajiboot.tweet;
 
 import java.util.List;
 import java.util.UUID;
 
+import hajiboot.tweeter.Tweeter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;

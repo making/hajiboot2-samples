@@ -1,0 +1,1 @@
+DELETE FROM tweeters WHERE username LiKE 'foo%';

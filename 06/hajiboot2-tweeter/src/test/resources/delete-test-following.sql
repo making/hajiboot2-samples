@@ -1,0 +1,1 @@
+DELETE FROM followings WHERE follower LiKE 'foo%';

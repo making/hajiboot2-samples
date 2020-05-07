@@ -1,0 +1,276 @@
+openapi: 3.0.0
+info:
+  title: Tweeter API
+  version: '1.0'
+  description: TweeterのAPIです。
+  license:
+    name: Apache 2.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  '/tweeters/{username}/tweets':
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: ユーザー名
+    get:
+      summary: 指定ユーザーのつぶやき取得
+      tags:
+        - Tweet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TweetForRead'
+              examples: {}
+      operationId: get-tweeters-username-tweets
+      description: 指定したユーザーのつぶやきを取得します。
+  '/tweeters/{username}/followers':
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: ユーザー名
+    get:
+      summary: 指定ユーザーのフォロワー取得
+      tags:
+        - Tweeter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TweeterForRead'
+              examples: {}
+      operationId: get-tweeters-username-followers
+      description: 指定したユーザーをフォローしているユーザーを取得します。
+  '/tweeters/{username}/followings':
+    get:
+      summary: 指定ユーザーのフォローイング取得
+      tags:
+        - Tweeter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TweeterForRead'
+      operationId: get-tweeters-username-followings
+      description: 指定したユーザーがフォローしているユーザー一覧を取得します。
+    parameters:
+      - schema:
+          type: string
+        name: username
+        in: path
+        required: true
+        description: ユーザー名
+  '/tweets/{uuid}':
+    get:
+      summary: 指定つぶやき一件取得
+      tags:
+        - Tweet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetForRead'
+      operationId: get-tweets-uuid
+      description: 指定したUUIDのつぶやきを取得します。
+    parameters:
+      - schema:
+          type: string
+        name: uuid
+        in: path
+        required: true
+        description: UUID
+    delete:
+      summary: 指定つぶやき一件削除
+      operationId: delete-tweets-uuid
+      responses:
+        '204':
+          description: No Content
+      description: 指定したUUIDのつぶやきを削除します。
+      tags:
+        - Tweet
+  /tweets:
+    post:
+      summary: 自分のつぶやき作成
+      operationId: post-tweets
+      responses:
+        '201':
+          description: Created
+          headers:
+            Location:
+              schema:
+                type: string
+              description: 作成されたつぶやきのURL
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweetForRead'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweetForCreate'
+      description: 自分のつぶやきを作成します。
+      tags:
+        - Tweet
+    get:
+      summary: 自分のつぶやき一覧
+      operationId: get-tweets
+      description: 自分のつぶやき一覧を取得します。
+      tags:
+        - Tweet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TweetForRead'
+  /followings:
+    get:
+      summary: 自分がフォローしているユーザー一覧取得
+      tags:
+        - Tweeter
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweeterForRead'
+      operationId: get-followings
+      description: 自分がフォローしているユーザー一覧を取得します。
+  /tweeters:
+    post:
+      summary: ユーザー作成
+      operationId: post-tweeters
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweeterForRead'
+      description: ユーザーを作成します。
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TweeterForCreate'
+      tags:
+        - Tweeter
+components:
+  schemas:
+    TweetForRead:
+      title: TweetForRead
+      type: object
+      x-examples:
+        Sample:
+          uuid: d188c790-8c28-4507-b8cd-e422d6073a93
+          text: 'Hello World!'
+          username: making
+          createdAt: '2020-05-06T14:20:42'
+      description: つぶやき(参照用)
+      properties:
+        uuid:
+          type: string
+          description: UUID
+          format: uuid
+        text:
+          type: string
+          description: |
+            つぶやきテキスト
+        username:
+          type: string
+          description: ユーザー名
+        createdAt:
+          type: string
+          description: 作成時刻
+          format: date-time
+      required:
+        - uuid
+        - text
+        - username
+        - createdAt
+    TweeterForRead:
+      title: TweeterForRead
+      type: object
+      x-examples:
+        Sample:
+          username: making
+      description: ユーザー(参照用)
+      properties:
+        username:
+          type: string
+          description: ユーザー名
+      required:
+        - username
+    TweeterForCreate:
+      title: TweeterForCreate
+      type: object
+      x-examples:
+        Sample:
+          username: making
+          email: making@example.com
+          password: secret
+      description: ユーザー(作成用)
+      properties:
+        username:
+          type: string
+          description: ユーザー名
+          minLength: 3
+          maxLength: 36
+          pattern: '[a-zA-Z0-9]'
+        email:
+          type: string
+          description: メールアドレス
+          format: email
+          minLength: 5
+          maxLength: 128
+        password:
+          type: string
+          description: パスワード
+          format: password
+          minLength: 8
+      required:
+        - username
+        - email
+        - password
+    TweetForCreate:
+      title: TweetForCreate
+      type: object
+      description: つぶやき(作成用)
+      x-examples:
+        Example:
+          text: 'Hello World!'
+      properties:
+        text:
+          type: string
+          description: |
+            つぶやきテキスト
+          minLength: 1
+          maxLength: 128
+      required:
+        - text

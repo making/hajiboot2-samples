@@ -1,7 +1,5 @@
 package hajiboot.tweeter;
 
-import hajiboot.tweeter.Tweeter;
-import hajiboot.tweeter.TweeterMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -29,7 +29,21 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TweetOutput'
-              examples: {}
+              examples:
+                Sample:
+                  value:
+                  - uuid: 52b6e221-77f9-4e1f-bdf7-2dcf09c44b81
+                    text: Hello3
+                    username: demo
+                    createdAt: '2020-05-07T13:39:57.366Z'
+                  - uuid: 5b74be91-5c13-4b0e-908d-f3fa9aa70b26
+                    text: Hello2
+                    username: demo
+                    createdAt: '2020-05-07T13:37:57.366Z'
+                  - uuid: 127f679c-b4e3-450b-bb3f-b5b7f32fc6a0
+                    text: Hello1
+                    username: demo
+                    createdAt: '2020-05-07T13:36:57.366Z'
       operationId: get-tweeters-username-tweets
       description: 指定したユーザーのつぶやきを取得します。
   '/tweeters/{username}/followers':
@@ -53,7 +67,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FollowingOutput'
-              examples: {}
+              examples:
+                Sample:
+                  value:
+                  - username: foo3
+                  - username: foo4
       operationId: get-tweeters-username-followers
       description: 指定したユーザーをフォローしているユーザーを取得します。
   '/tweeters/{username}/followings':
@@ -70,6 +88,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FollowingOutput'
+              examples:
+                Sample:
+                  value:
+                  - username: foo2
+                  - username: foo3
       operationId: get-tweeters-username-followings
       description: 指定したユーザーがフォローしているユーザー一覧を取得します。
     parameters:
@@ -91,6 +114,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweetOutput'
+              examples:
+                Sample:
+                  value:
+                    uuid: 2bf80fec-ea55-4d05-b3ea-392bcec7483e
+                    text: 'Hi!'
+                    username: foo
+                    createdAt: '2020-05-07T13:38:57.366Z'
       operationId: get-tweets-uuid
       description: 指定したUUIDのつぶやきを取得します。
     parameters:
@@ -125,6 +155,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweetOutput'
+              examples:
+                Sample:
+                  value:
+                    text: Hello
       requestBody:
         content:
           application/json:
@@ -154,6 +188,25 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TweetOutput'
+              examples:
+                Sample:
+                  value:
+                  - uuid: 52b6e221-77f9-4e1f-bdf7-2dcf09c44b81
+                    text: Hello3
+                    username: demo
+                    createdAt: '2020-05-07T13:39:57.366Z'
+                  - uuid: 2bf80fec-ea55-4d05-b3ea-392bcec7483e
+                    text: 'Hi!'
+                    username: foo
+                    createdAt: '2020-05-07T13:38:57.366Z'
+                  - uuid: 5b74be91-5c13-4b0e-908d-f3fa9aa70b26
+                    text: Hello2
+                    username: demo
+                    createdAt: '2020-05-07T13:37:57.366Z'
+                  - uuid: 127f679c-b4e3-450b-bb3f-b5b7f32fc6a0
+                    text: Hello1
+                    username: demo
+                    createdAt: '2020-05-07T13:36:57.366Z'
       parameters: []
   /followings:
     get:
@@ -167,6 +220,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Followings'
+              examples:
+                Sample:
+                  value:
+                  - username: demo1
+                  - username: demo2
       operationId: get-followings
       description: 自分がフォローしているユーザー一覧を取得します。
     post:
@@ -179,6 +237,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FollowingOutput'
+              examples:
+                Sample:
+                  value:
+                    username: foo
       description: ユーザーをフォローします。
       requestBody:
         content:
@@ -203,6 +265,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TweeterOutput'
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TweeterOutput'
+              examples:
+                Sample:
+                  value:
+                    username: demo
       description: ユーザーを作成します。
       requestBody:
         content:
@@ -315,8 +386,6 @@ components:
       title: Following
       type: object
       description: フォロー情報(出力用)
-      x-tags:
-      - Following
       properties:
         username:
           type: string
@@ -325,6 +394,8 @@ components:
       x-examples:
         Sample:
           username: demo
+      x-tags:
+      - Following
     FollowingInput:
       title: FollowingInput
       type: object

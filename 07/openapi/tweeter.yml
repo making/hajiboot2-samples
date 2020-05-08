@@ -19,7 +19,7 @@ paths:
     get:
       summary: 指定ユーザーのつぶやき取得
       tags:
-      - Tweet
+      - Tweets
       responses:
         '200':
           description: OK
@@ -83,7 +83,7 @@ paths:
     get:
       summary: 指定つぶやき一件取得
       tags:
-      - Tweet
+      - Tweets
       responses:
         '200':
           description: OK
@@ -138,12 +138,13 @@ paths:
       description: 自分のつぶやきを作成します。
       tags:
       - Tweet
+      parameters: []
     get:
       summary: 自分とフォロワーのつぶやき一覧
       operationId: get-tweets
       description: 自分とフォローしているユーザーのつぶやき一覧を取得します。
       tags:
-      - Tweet
+      - Tweets
       responses:
         '200':
           description: OK
@@ -216,7 +217,7 @@ paths:
                   password: secret
         description: ユーザー情報
       tags:
-      - Tweeter
+      - Tweeters
 components:
   schemas:
     TweetForRead:
@@ -310,8 +311,8 @@ components:
           maxLength: 128
       required:
       - text
-    Followings:
-      title: Followings
+    Following:
+      title: Following
       type: object
       description: フォロー情報
       x-tags:

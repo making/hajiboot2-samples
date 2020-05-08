@@ -3,13 +3,13 @@ package hajiboot.tweet.web;
 import java.time.Instant;
 import java.util.UUID;
 
-class TweetForRead {
+class TweetOutput {
     private final UUID uuid;
     private final String text;
     private final String username;
     private final Instant createdAt;
 
-    public TweetForRead(UUID uuid, String text, String username, Instant createdAt) {
+    public TweetOutput(UUID uuid, String text, String username, Instant createdAt) {
         this.uuid = uuid;
         this.text = text;
         this.username = username;

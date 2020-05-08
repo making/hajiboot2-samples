@@ -161,7 +161,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweeterForRead'
+                $ref: '#/components/schemas/Followings'
       operationId: get-followings
       description: 自分がフォローしているユーザー一覧を取得します。
     post:
@@ -173,13 +173,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweeterForRead'
+                $ref: '#/components/schemas/Followings'
       description: ユーザーをフォローします。
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TweeterForCreate'
+              $ref: '#/components/schemas/Followings'
             examples: {}
         description: フォローするユーザー情報
       tags:
@@ -203,7 +203,7 @@ paths:
               $ref: '#/components/schemas/TweeterForCreate'
         description: ユーザー情報
       tags:
-      - Followings
+      - Tweeter
 components:
   schemas:
     TweetForRead:
@@ -297,3 +297,16 @@ components:
           maxLength: 128
       required:
       - text
+    Followings:
+      title: Followings
+      type: object
+      description: フォロー情報
+      x-tags:
+      - Followings
+      properties:
+        username:
+          type: string
+      required:
+      - username
+      x-examples:
+        example-1: {}

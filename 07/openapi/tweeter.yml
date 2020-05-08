@@ -28,7 +28,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweetForRead'
+                  $ref: '#/components/schemas/TweetOutput'
               examples: {}
       operationId: get-tweeters-username-tweets
       description: 指定したユーザーのつぶやきを取得します。
@@ -52,7 +52,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweeterForRead'
+                  $ref: '#/components/schemas/FollowingOutput'
               examples: {}
       operationId: get-tweeters-username-followers
       description: 指定したユーザーをフォローしているユーザーを取得します。
@@ -69,7 +69,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweeterForRead'
+                  $ref: '#/components/schemas/FollowingOutput'
       operationId: get-tweeters-username-followings
       description: 指定したユーザーがフォローしているユーザー一覧を取得します。
     parameters:
@@ -90,7 +90,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweetForRead'
+                $ref: '#/components/schemas/TweetOutput'
       operationId: get-tweets-uuid
       description: 指定したUUIDのつぶやきを取得します。
     parameters:
@@ -124,12 +124,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweetForRead'
+                $ref: '#/components/schemas/TweetOutput'
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TweetForCreate'
+              $ref: '#/components/schemas/TweetInput'
             examples:
               Sample:
                 value:
@@ -153,7 +153,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweetForRead'
+                  $ref: '#/components/schemas/TweetOutput'
       parameters: []
   /followings:
     get:
@@ -178,13 +178,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Followings'
+                $ref: '#/components/schemas/FollowingOutput'
       description: ユーザーをフォローします。
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Followings'
+              $ref: '#/components/schemas/FollowingInput'
             examples:
               Sample:
                 value:
@@ -202,13 +202,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweeterForRead'
+                $ref: '#/components/schemas/TweeterOutput'
       description: ユーザーを作成します。
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TweeterForCreate'
+              $ref: '#/components/schemas/TweeterInput'
             examples:
               Sample:
                 value:
@@ -220,8 +220,8 @@ paths:
       - Tweeters
 components:
   schemas:
-    TweetForRead:
-      title: TweetForRead
+    TweetOutput:
+      title: TweetOutput
       type: object
       x-examples:
         Sample:
@@ -229,7 +229,7 @@ components:
           text: 'Hello World!'
           username: making
           createdAt: '2020-05-06T05:38:55.297765Z'
-      description: つぶやき(参照用)
+      description: つぶやき(出力用)
       properties:
         uuid:
           type: string
@@ -251,28 +251,28 @@ components:
       - text
       - username
       - createdAt
-    TweeterForRead:
-      title: TweeterForRead
+    TweeterOutput:
+      title: TweeterOutput
       type: object
       x-examples:
         Sample:
           username: making
-      description: ユーザー(参照用)
+      description: ユーザー(出力用)
       properties:
         username:
           type: string
           description: ユーザー名
       required:
       - username
-    TweeterForCreate:
-      title: TweeterForCreate
+    TweeterInput:
+      title: TweeterInput
       type: object
       x-examples:
         Sample:
           username: making
           email: making@example.com
           password: secret
-      description: ユーザー(作成用)
+      description: ユーザー(入力用)
       properties:
         username:
           type: string
@@ -295,10 +295,10 @@ components:
       - username
       - email
       - password
-    TweetForCreate:
-      title: TweetForCreate
+    TweetInput:
+      title: TweetInput
       type: object
-      description: つぶやき(作成用)
+      description: つぶやき(入力用)
       x-examples:
         Example:
           text: 'Hello World!'
@@ -311,10 +311,10 @@ components:
           maxLength: 128
       required:
       - text
-    Following:
+    FollowingOutput:
       title: Following
       type: object
-      description: フォロー情報
+      description: フォロー情報(出力用)
       x-tags:
       - Followings
       properties:
@@ -323,4 +323,17 @@ components:
       required:
       - username
       x-examples:
-        example-1: {}
+        Sample:
+          username: demo
+    FollowingInput:
+      title: FollowingInput
+      type: object
+      description: フォロー情報(入力用)
+      properties:
+        username:
+          type: string
+      required:
+      - username
+      x-examples:
+        Sample:
+          username: demo

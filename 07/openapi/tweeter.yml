@@ -19,7 +19,7 @@ paths:
     get:
       summary: 指定ユーザーのつぶやき取得
       tags:
-      - Tweets
+      - Tweet
       responses:
         '200':
           description: OK
@@ -43,7 +43,7 @@ paths:
     get:
       summary: 指定ユーザーのフォロワー取得
       tags:
-      - Followings
+      - Following
       responses:
         '200':
           description: OK
@@ -60,7 +60,7 @@ paths:
     get:
       summary: 指定ユーザーのフォローイング取得
       tags:
-      - Followings
+      - Following
       responses:
         '200':
           description: OK
@@ -83,7 +83,7 @@ paths:
     get:
       summary: 指定つぶやき一件取得
       tags:
-      - Tweets
+      - Tweet
       responses:
         '200':
           description: OK
@@ -108,7 +108,7 @@ paths:
           description: No Content
       description: 指定したUUIDのつぶやきを削除します。
       tags:
-      - Tweets
+      - Tweet
   /tweets:
     post:
       summary: 自分のつぶやき作成
@@ -137,14 +137,14 @@ paths:
         description: つぶやき情報
       description: 自分のつぶやきを作成します。
       tags:
-      - Tweets
+      - Tweet
       parameters: []
     get:
       summary: 自分とフォロワーのつぶやき一覧
       operationId: get-tweets
       description: 自分とフォローしているユーザーのつぶやき一覧を取得します。
       tags:
-      - Tweets
+      - Tweet
       responses:
         '200':
           description: OK
@@ -159,7 +159,7 @@ paths:
     get:
       summary: 自分がフォローしているユーザー一覧取得
       tags:
-      - Followings
+      - Following
       responses:
         '200':
           description: OK
@@ -191,7 +191,7 @@ paths:
                   username: foo
         description: フォローするユーザー情報
       tags:
-      - Followings
+      - Following
   /tweeters:
     post:
       summary: ユーザー作成
@@ -217,7 +217,7 @@ paths:
                   password: secret
         description: ユーザー情報
       tags:
-      - Tweeters
+      - Tweeter
 components:
   schemas:
     TweetOutput:
@@ -316,7 +316,7 @@ components:
       type: object
       description: フォロー情報(出力用)
       x-tags:
-      - Followings
+      - Following
       properties:
         username:
           type: string

@@ -322,6 +322,8 @@ components:
       - text
       - username
       - createdAt
+      x-tags:
+      - Tweet
     TweeterOutput:
       title: TweeterOutput
       type: object
@@ -335,6 +337,8 @@ components:
           description: ユーザー名
       required:
       - username
+      x-tags:
+      - Tweeter
     TweeterInput:
       title: TweeterInput
       type: object
@@ -366,6 +370,8 @@ components:
       - username
       - email
       - password
+      x-tags:
+      - Tweeter
     TweetInput:
       title: TweetInput
       type: object
@@ -382,6 +388,8 @@ components:
           maxLength: 128
       required:
       - text
+      x-tags:
+      - Tweet
     FollowingOutput:
       title: Following
       type: object
@@ -408,3 +416,5 @@ components:
       x-examples:
         Sample:
           username: demo
+      x-tags:
+      - Following

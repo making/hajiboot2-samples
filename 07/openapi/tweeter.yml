@@ -108,7 +108,7 @@ paths:
           description: No Content
       description: 指定したUUIDのつぶやきを削除します。
       tags:
-      - Tweet
+      - Tweets
   /tweets:
     post:
       summary: 自分のつぶやき作成
@@ -137,7 +137,7 @@ paths:
         description: つぶやき情報
       description: 自分のつぶやきを作成します。
       tags:
-      - Tweet
+      - Tweets
       parameters: []
     get:
       summary: 自分とフォロワーのつぶやき一覧

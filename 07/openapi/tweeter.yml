@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Followings'
+                $ref: '#/components/schemas/FollowingOutput'
               examples:
                 Sample:
                   value:
@@ -261,11 +261,6 @@ paths:
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TweeterOutput'
-        '201':
           content:
             application/json:
               schema:

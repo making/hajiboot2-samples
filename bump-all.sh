@@ -1,10 +1,10 @@
 #!/bin/bash
-set -x
+set -xe
 
-FROM=2.2.0.M4
-TO=2.2.6.RELEASE
+FROM=2.2.7.RELEASE
+TO=2.3.0.RELEASE
 for f in `find . -name 'pom.xml'`;do
     sed -i.bk "s|<version>${FROM}</version>|<version>${TO}</version>|g" ${f}
     rm -f ${f}.bk
-    # mvn -f ${f} clean test
+    mvn -f ${f} clean test
 done

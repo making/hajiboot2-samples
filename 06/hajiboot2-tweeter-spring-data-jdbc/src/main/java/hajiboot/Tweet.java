@@ -8,7 +8,7 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("tweets")
+@Table("TWEETS")
 public class Tweet implements Serializable {
 	@Id
 	private UUID uuid;

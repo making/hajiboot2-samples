@@ -28,7 +28,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweetOutput'
+                  $ref: '#/components/schemas/TweetResponse'
               examples:
                 Sample:
                   value:
@@ -66,7 +66,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FollowingOutput'
+                  $ref: '#/components/schemas/FollowingResponse'
               examples:
                 Sample:
                   value:
@@ -87,7 +87,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FollowingOutput'
+                  $ref: '#/components/schemas/FollowingResponse'
               examples:
                 Sample:
                   value:
@@ -113,7 +113,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweetOutput'
+                $ref: '#/components/schemas/TweetResponse'
               examples:
                 Sample:
                   value:
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweetOutput'
+                $ref: '#/components/schemas/TweetResponse'
               examples:
                 Sample:
                   value:
@@ -163,7 +163,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TweetInput'
+              $ref: '#/components/schemas/TweetRequest'
             examples:
               Sample:
                 value:
@@ -187,7 +187,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TweetOutput'
+                  $ref: '#/components/schemas/TweetResponse'
               examples:
                 Sample:
                   value:
@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FollowingOutput'
+                $ref: '#/components/schemas/FollowingResponse'
               examples:
                 Sample:
                   value:
@@ -236,7 +236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FollowingOutput'
+                $ref: '#/components/schemas/FollowingResponse'
               examples:
                 Sample:
                   value:
@@ -246,7 +246,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FollowingInput'
+              $ref: '#/components/schemas/FollowingRequest'
             examples:
               Sample:
                 value:
@@ -264,7 +264,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TweeterOutput'
+                $ref: '#/components/schemas/TweeterResponse'
               examples:
                 Sample:
                   value:
@@ -274,7 +274,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TweeterInput'
+              $ref: '#/components/schemas/TweeterRequest'
             examples:
               Sample:
                 value:
@@ -286,8 +286,8 @@ paths:
       - Tweeter
 components:
   schemas:
-    TweetOutput:
-      title: TweetOutput
+    TweetResponse:
+      title: TweetResponse
       type: object
       x-examples:
         Sample:
@@ -295,7 +295,7 @@ components:
           text: 'Hello World!'
           username: making
           createdAt: '2020-05-06T05:38:55.297765Z'
-      description: つぶやき(出力用)
+      description: つぶやき(レスポンス)
       properties:
         uuid:
           type: string
@@ -319,13 +319,13 @@ components:
       - createdAt
       x-tags:
       - Tweet
-    TweeterOutput:
-      title: TweeterOutput
+    TweeterResponse:
+      title: TweeterResponse
       type: object
       x-examples:
         Sample:
           username: making
-      description: ユーザー(出力用)
+      description: ユーザー(レスポンス)
       properties:
         username:
           type: string
@@ -334,15 +334,15 @@ components:
       - username
       x-tags:
       - Tweeter
-    TweeterInput:
-      title: TweeterInput
+    TweeterRequest:
+      title: TweeterRequest
       type: object
       x-examples:
         Sample:
           username: making
           email: making@example.com
           password: secret
-      description: ユーザー(入力用)
+      description: ユーザー(リクエスト)
       properties:
         username:
           type: string
@@ -367,10 +367,10 @@ components:
       - password
       x-tags:
       - Tweeter
-    TweetInput:
-      title: TweetInput
+    TweetRequest:
+      title: TweetRequest
       type: object
-      description: つぶやき(入力用)
+      description: つぶやき(リクエスト)
       x-examples:
         Example:
           text: 'Hello World!'
@@ -385,10 +385,10 @@ components:
       - text
       x-tags:
       - Tweet
-    FollowingOutput:
+    FollowingResponse:
       title: Following
       type: object
-      description: フォロー情報(出力用)
+      description: フォロー情報(レスポンス)
       properties:
         username:
           type: string
@@ -399,10 +399,10 @@ components:
           username: demo
       x-tags:
       - Following
-    FollowingInput:
-      title: FollowingInput
+    FollowingRequest:
+      title: FollowingRequest
       type: object
-      description: フォロー情報(入力用)
+      description: フォロー情報(リクエスト)
       properties:
         username:
           type: string

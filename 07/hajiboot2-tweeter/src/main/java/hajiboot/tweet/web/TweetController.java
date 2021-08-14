@@ -1,63 +1,76 @@
 package hajiboot.tweet.web;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import java.net.URI;
+import java.time.Clock;
 import java.time.Instant;
-import java.util.*;
-import java.util.function.Function;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import hajiboot.tweet.Tweet;
+import hajiboot.tweet.TweetMapper;
+import hajiboot.tweeter.Tweeter;
+
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.IdGenerator;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 public class TweetController {
-    private final Map<UUID, TweetOutput> mockTweets;
+	private final TweetMapper tweetMapper;
 
-    public TweetController() {
-        this.mockTweets = Stream.of(
-                new TweetOutput(UUID.fromString("127f679c-b4e3-450b-bb3f-b5b7f32fc6a0"), "Hello1", "demo", Instant.parse("2020-05-07T13:36:57.366Z")),
-                new TweetOutput(UUID.fromString("5b74be91-5c13-4b0e-908d-f3fa9aa70b26"), "Hello2", "demo", Instant.parse("2020-05-07T13:37:57.366Z")),
-                new TweetOutput(UUID.fromString("2bf80fec-ea55-4d05-b3ea-392bcec7483e"), "Hi!", "foo", Instant.parse("2020-05-07T13:38:57.366Z")),
-                new TweetOutput(UUID.fromString("52b6e221-77f9-4e1f-bdf7-2dcf09c44b81"), "Hello3", "demo", Instant.parse("2020-05-07T13:39:57.366Z")))
-                .collect(Collectors.toConcurrentMap(TweetOutput::getUuid, Function.identity()));
-    }
+	private final IdGenerator idGenerator;
 
-    @GetMapping(path = "tweets/{uuid}")
-    public ResponseEntity<TweetOutput> getTweet(@PathVariable("uuid") UUID uuid) {
-        final TweetOutput output = this.mockTweets.get(uuid);
-        return ResponseEntity.ok(output);
-    }
+	private final Clock clock;
 
-    @DeleteMapping(path = "tweets/{uuid}")
-    public ResponseEntity<Void> deleteTweet(@PathVariable("uuid") UUID uuid) {
-        this.mockTweets.remove(uuid);
-        return ResponseEntity.noContent().build();
-    }
+	public TweetController(TweetMapper tweetMapper, IdGenerator idGenerator, Clock clock) {
+		this.tweetMapper = tweetMapper;
+		this.idGenerator = idGenerator;
+		this.clock = clock;
+	}
 
-    @PostMapping(path = "tweets")
-    public ResponseEntity<TweetOutput> postTweets(@RequestBody TweetInput input, UriComponentsBuilder builder) {
-        final TweetOutput output = new TweetOutput(UUID.randomUUID(), input.getText(), "demo", Instant.now());
-        this.mockTweets.put(output.getUuid(), output);
-        final URI location = builder.path("tweets/{uuid}").build(output.getUuid());
-        return ResponseEntity.created(location).body(output);
-    }
+	@GetMapping(path = "tweets/{uuid}")
+	public ResponseEntity<?> getTweet(@PathVariable UUID uuid) {
+		try {
+			final Tweet tweet = this.tweetMapper.findByUuid(uuid);
+			final TweetOutput output = TweetOutput.fromTweet(tweet);
+			return ResponseEntity.ok(output);
+		}
+		catch (EmptyResultDataAccessException e) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The given uuid is not found (uuid=%s)", uuid), e);
+		}
+	}
 
-    @GetMapping(path = "tweets")
-    public ResponseEntity<List<TweetOutput>> getTweets() {
-        final List<TweetOutput> outputs = mockTweets.values().stream()
-                .sorted(Comparator.comparing(TweetOutput::getCreatedAt).reversed())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(outputs);
-    }
+	@DeleteMapping(path = "tweets/{uuid}")
+	public ResponseEntity<Void> deleteTweet(@PathVariable UUID uuid) {
+		this.tweetMapper.deleteByUuid(uuid);
+		return ResponseEntity.noContent().build();
+	}
 
-    @GetMapping(path = "tweeters/{username}/tweets")
-    public ResponseEntity<List<TweetOutput>> getTweetsByUsername(@PathVariable("username") String username) {
-        final List<TweetOutput> outputs = this.mockTweets.values().stream()
-                .filter(t -> Objects.equals(t.getUsername(), username))
-                .sorted(Comparator.comparing(TweetOutput::getCreatedAt).reversed())
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(outputs);
-    }
+	@PostMapping(path = "tweets")
+	public ResponseEntity<TweetOutput> postTweets(@RequestBody TweetInput input, UriComponentsBuilder builder) {
+		final Tweet tweet = new Tweet(this.idGenerator.generateId(), input.getText(), new Tweeter(input.getUsername()), Instant.now(this.clock));
+		this.tweetMapper.insert(tweet);
+		final TweetOutput output = TweetOutput.fromTweet(tweet);
+		final URI location = builder.path("tweets/{uuid}").build(output.getUuid());
+		return ResponseEntity.created(location).body(output);
+	}
+
+	@GetMapping(path = "tweeters/{username}/tweets")
+	public ResponseEntity<List<TweetOutput>> getTweetsByUsername(@PathVariable String username) {
+		final List<Tweet> tweets = this.tweetMapper.findByUsername(username);
+		final List<TweetOutput> tweetOutputs = tweets.stream()
+				.map(TweetOutput::fromTweet)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(tweetOutputs);
+	}
 }

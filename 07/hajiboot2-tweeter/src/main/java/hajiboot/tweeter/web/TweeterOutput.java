@@ -1,13 +1,13 @@
 package hajiboot.tweeter.web;
 
 class TweeterOutput {
-    private final String username;
+	private final String username;
 
-    public TweeterOutput(String username) {
-        this.username = username;
-    }
+	public TweeterOutput(String username) {
+		this.username = username;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getUsername() {
+		return username;
+	}
 }

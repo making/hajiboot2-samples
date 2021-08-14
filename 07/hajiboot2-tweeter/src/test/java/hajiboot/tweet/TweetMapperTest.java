@@ -47,7 +47,7 @@ public class TweetMapperTest {
 		assertThat(updated2).isEqualTo(1);
 
 		List<Tweet> tweets = tweetMapper.findAll();
-		assertThat(tweets).containsExactly(tweet2, tweet1);
+		assertThat(tweets).containsExactly(tweet1, tweet2);
 	}
 
 	@Test

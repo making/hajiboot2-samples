@@ -54,7 +54,7 @@ public class TweetMapper {
 
 	public List<Tweet> findAll() {
 		return this.jdbcTemplate.query(
-				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username ORDER BY tw.created_at DESC",
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username",
 				tweetRowMapper);
 	}
 

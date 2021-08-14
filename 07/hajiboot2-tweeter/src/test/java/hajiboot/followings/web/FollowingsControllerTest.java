@@ -67,6 +67,19 @@ class FollowingsControllerTest {
 	}
 
 	@Test
+	void putFollowingsInvalid() throws Exception {
+		this.mockMvc.perform(put("/followings")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"follower\":\"\", \"followee\":\"\"}"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.status").value(400))
+				.andExpect(jsonPath("$.error").value("Bad Request"))
+				.andExpect(jsonPath("$.details.length()").value(2))
+				.andExpect(jsonPath("$.details[0].followee").value("must not be blank"))
+				.andExpect(jsonPath("$.details[1].follower").value("must not be blank"));
+	}
+
+	@Test
 	void deleteFollowings() throws Exception {
 		given(this.followingsMapper.delete("demo1", "demo2")).willReturn(1);
 		this.mockMvc.perform(delete("/followings")

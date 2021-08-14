@@ -1,13 +1,24 @@
 package hajiboot.tweeter.web;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 class TweeterInput {
+	@NotBlank
+	@Size(max = 128)
 	private final String username;
 
+	@Email
+	@NotBlank
+	@Size(max = 128)
 	private final String email;
 
+	@NotBlank
+	@Size(max = 255)
 	private final String password;
 
 	@JsonCreator

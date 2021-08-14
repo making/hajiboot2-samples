@@ -7,6 +7,7 @@ import hajiboot.followings.Followings;
 import hajiboot.followings.FollowingsMapper;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,7 @@ public class FollowingsController {
 	}
 
 	@PutMapping(path = "followings")
-	public ResponseEntity<FollowingOutput> putFollowings(@RequestBody FollowingInput input) {
+	public ResponseEntity<FollowingOutput> putFollowings(@Validated @RequestBody FollowingInput input) {
 		this.followingsMapper.insert(input.getFollower(), input.getFollowee());
 		final FollowingOutput output = new FollowingOutput(input.getFollowee());
 		return ResponseEntity.ok(output);

@@ -85,6 +85,19 @@ public class TweetControllerTest {
 	}
 
 	@Test
+	void postTweetsInvalid() throws Exception {
+		this.mockMvc.perform(post("/tweets")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"username\":\"\", \"text\":\"\"}"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.status").value(400))
+				.andExpect(jsonPath("$.error").value("Bad Request"))
+				.andExpect(jsonPath("$.details.length()").value(2))
+				.andExpect(jsonPath("$.details[0].username").value("must not be blank"))
+				.andExpect(jsonPath("$.details[1].text").value("must not be blank"));
+	}
+
+	@Test
 	void getTweetsByUsername() throws Exception {
 		given(this.tweetMapper.findByUsername("test")).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
 		this.mockMvc.perform(get("/tweeters/test/tweets"))

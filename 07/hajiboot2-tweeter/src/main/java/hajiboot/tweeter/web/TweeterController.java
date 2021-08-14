@@ -8,6 +8,7 @@ import hajiboot.tweeter.Tweeter;
 import hajiboot.tweeter.TweeterMapper;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +26,7 @@ public class TweeterController {
 	}
 
 	@PostMapping(path = "tweeters")
-	public ResponseEntity<TweeterOutput> postTweeters(@RequestBody TweeterInput input, UriComponentsBuilder builder) {
+	public ResponseEntity<TweeterOutput> postTweeters(@Validated @RequestBody TweeterInput input, UriComponentsBuilder builder) {
 		final String encodedPassword = "{noop}" + input.getPassword(); // TODO Password Encode
 		final Tweeter tweeter = new Tweeter(input.getUsername(), input.getEmail(), encodedPassword, Instant.now(this.clock));
 		this.tweeterMapper.insert(tweeter);

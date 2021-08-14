@@ -1,11 +1,17 @@
 package hajiboot.tweet.web;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 class TweetInput {
+	@NotBlank
+	@Size(max = 140)
 	private final String text;
 
+	@NotBlank
 	private final String username;
 
 	@JsonCreator

@@ -57,6 +57,20 @@ public class TweeterControllerTest {
 		assertThat(created.getCreatedAt()).isEqualTo(Instant.parse("2021-08-14T00:00:00Z"));
 	}
 
+	@Test
+	void postTweetersInvalid() throws Exception {
+		this.mockMvc.perform(post("/tweeters")
+						.contentType(MediaType.APPLICATION_JSON)
+						.content("{\"username\":\"\", \"email\":\"\", \"password\":\"\"}"))
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath("$.status").value(400))
+				.andExpect(jsonPath("$.error").value("Bad Request"))
+				.andExpect(jsonPath("$.details.length()").value(3))
+				.andExpect(jsonPath("$.details[0].username").value("must not be blank"))
+				.andExpect(jsonPath("$.details[1].password").value("must not be blank"))
+				.andExpect(jsonPath("$.details[2].email").value("must not be blank"));
+	}
+
 	@TestConfiguration
 	static class AppConfig {
 		@Bean

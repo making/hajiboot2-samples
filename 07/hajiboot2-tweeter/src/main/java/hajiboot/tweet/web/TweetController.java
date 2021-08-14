@@ -15,6 +15,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.IdGenerator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +58,7 @@ public class TweetController {
 	}
 
 	@PostMapping(path = "tweets")
-	public ResponseEntity<TweetOutput> postTweets(@RequestBody TweetInput input, UriComponentsBuilder builder) {
+	public ResponseEntity<TweetOutput> postTweets(@Validated @RequestBody TweetInput input, UriComponentsBuilder builder) {
 		final Tweet tweet = new Tweet(this.idGenerator.generateId(), input.getText(), new Tweeter(input.getUsername()), Instant.now(this.clock));
 		this.tweetMapper.insert(tweet);
 		final TweetOutput output = TweetOutput.fromTweet(tweet);

@@ -41,18 +41,18 @@ public class TweeterControllerTest {
 
 		this.mockMvc.perform(post("/tweeters")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"username\":\"jdoe\", \"email\":\"jdoe@example.com\", \"password\":\"ppppp\"}"))
+						.content("{\"username\":\"foo\", \"email\":\"foo@example.com\", \"password\":\"ppppp\"}"))
 				.andExpect(status().isCreated())
-				.andExpect(jsonPath("$.username").value("jdoe"))
-				.andExpect(header().string("Location", "http://localhost/tweeters/jdoe/tweets"));
+				.andExpect(jsonPath("$.username").value("foo"))
+				.andExpect(header().string("Location", "http://localhost/tweeters/foo/tweets"));
 
 		final ArgumentCaptor<Tweeter> arg = ArgumentCaptor.forClass(Tweeter.class);
 		verify(this.tweeterMapper).insert(arg.capture());
 		final Tweeter created = arg.getValue();
 
 		assertThat(created).isNotNull();
-		assertThat(created.getUsername()).isEqualTo("jdoe");
-		assertThat(created.getEmail()).isEqualTo("jdoe@example.com");
+		assertThat(created.getUsername()).isEqualTo("foo");
+		assertThat(created.getEmail()).isEqualTo("foo@example.com");
 		assertThat(created.getPassword()).isEqualTo("{noop}ppppp");
 		assertThat(created.getCreatedAt()).isEqualTo(Instant.parse("2021-08-14T00:00:00Z"));
 	}

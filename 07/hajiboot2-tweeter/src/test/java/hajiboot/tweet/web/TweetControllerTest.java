@@ -70,7 +70,10 @@ public class TweetControllerTest {
 	void getTweetNotFound() throws Exception {
 		given(this.tweetMapper.findByUuid(this.tweet1.getUuid())).willThrow(new EmptyResultDataAccessException(1));
 		this.mockMvc.perform(get("/tweets/{uuid}", this.tweet1.getUuid()))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.error").value("Not Found"))
+				.andExpect(jsonPath("$.status").value(404))
+				.andExpect(jsonPath("$.message").value(String.format("The given uuid is not found (uuid=%s)", this.tweet1.getUuid())));
 	}
 
 	@Test
@@ -160,9 +163,12 @@ public class TweetControllerTest {
 
 	@Test
 	void getTweetsByUsernameNotFound() throws Exception {
-		given(this.tweeterMapper.countByUsername("foo")).willReturn(0L);
+		given(this.tweeterMapper.countByUsername("demo")).willReturn(0L);
 		this.mockMvc.perform(get("/tweeters/demo/tweets"))
-				.andExpect(status().isNotFound());
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath("$.error").value("Not Found"))
+				.andExpect(jsonPath("$.status").value(404))
+				.andExpect(jsonPath("$.message").value("The given username is not found (username=demo)"));
 	}
 
 	@TestConfiguration

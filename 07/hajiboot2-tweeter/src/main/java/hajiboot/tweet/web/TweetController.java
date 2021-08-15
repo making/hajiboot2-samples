@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -53,8 +52,11 @@ public class TweetController {
 			final TweetOutput output = TweetOutput.fromTweet(tweet);
 			return ResponseEntity.ok(output);
 		}
-		catch (EmptyResultDataAccessException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The given uuid is not found (uuid=%s)", uuid), e);
+		catch (EmptyResultDataAccessException ignored) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Map.of("error", "Not Found",
+							"status", 404,
+							"message", String.format("The given uuid is not found (uuid=%s)", uuid)));
 		}
 	}
 
@@ -90,9 +92,12 @@ public class TweetController {
 	}
 
 	@GetMapping(path = "tweeters/{username}/tweets")
-	public ResponseEntity<List<TweetOutput>> getTweetsByUsername(@PathVariable String username) {
+	public ResponseEntity<?> getTweetsByUsername(@PathVariable String username) {
 		if (this.tweeterMapper.countByUsername(username) == 0L) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The given username is not found (username=%s)", username));
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Map.of("error", "Not Found",
+							"status", 404,
+							"message", String.format("The given username is not found (username=%s)", username)));
 		}
 		final List<Tweet> tweets = this.tweetMapper.findByUsername(username);
 		final List<TweetOutput> tweetOutputs = tweets.stream()

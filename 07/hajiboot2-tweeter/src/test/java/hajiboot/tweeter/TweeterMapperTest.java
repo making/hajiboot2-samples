@@ -5,6 +5,8 @@ import java.time.Instant;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestConstructor;
 
@@ -15,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TweeterMapperTest {
 	private final TweeterMapper tweeterMapper;
 
-	public TweeterMapperTest(JdbcTemplate jdbcTemplate) {
-		this.tweeterMapper = new TweeterMapper(jdbcTemplate);
+	public TweeterMapperTest(TweeterMapper tweeterMapper) {
+		this.tweeterMapper = tweeterMapper;
 	}
 
 	@Test
@@ -37,5 +39,13 @@ public class TweeterMapperTest {
 		assertThat(tweeter.getEmail()).isEqualTo("foo@example.com");
 		assertThat(tweeter.getPassword()).isEqualTo("{noop}password");
 		assertThat(tweeter.getCreatedAt()).isEqualTo(createdAt);
+	}
+
+	@TestConfiguration
+	static class Config {
+		@Bean
+		public TweeterMapper tweeterMapper(JdbcTemplate jdbcTemplate) {
+			return new TweeterMapper(jdbcTemplate);
+		}
 	}
 }

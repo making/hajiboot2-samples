@@ -10,6 +10,8 @@ import org.assertj.core.api.Assertions;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestConstructor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,8 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TweetMapperTest {
 	private final TweetMapper tweetMapper;
 
-	public TweetMapperTest(EntityManager entityManager) {
-		this.tweetMapper = new TweetMapper(entityManager);
+	public TweetMapperTest(TweetMapper tweetMapper) {
+		this.tweetMapper = tweetMapper;
 	}
 
 	@Test
@@ -40,5 +42,13 @@ public class TweetMapperTest {
 
 		List<Tweet> tweets = tweetMapper.findAll();
 		Assertions.assertThat(tweets).containsExactly(tweet1, tweet2);
+	}
+
+	@TestConfiguration
+	static class Config {
+		@Bean
+		public TweetMapper tweetMapper(EntityManager entityManager) {
+			return new TweetMapper(entityManager);
+		}
 	}
 }

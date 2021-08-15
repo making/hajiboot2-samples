@@ -2,6 +2,8 @@ package hajiboot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.jdbc.Sql;
@@ -18,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class FollowingsMapperTest {
     private final FollowingsMapper followingsMapper;
 
-    public FollowingsMapperTest(JdbcTemplate jdbcTemplate) {
-        this.followingsMapper = new FollowingsMapper(jdbcTemplate);
+    public FollowingsMapperTest(FollowingsMapper followingsMapper) {
+        this.followingsMapper = followingsMapper;
     }
 
     @Test
@@ -34,5 +36,13 @@ public class FollowingsMapperTest {
         final Followings followings = this.followingsMapper.findFollowersByUsername("foo");
         assertThat(followings.getUsername()).isEqualTo("foo");
         assertThat(followings.getTweeters()).containsExactly(new Tweeter("foo4"), new Tweeter("foo2"));
+    }
+
+    @TestConfiguration
+    static class Config {
+        @Bean
+        public FollowingsMapper followingsMapper(JdbcTemplate jdbcTemplate) {
+            return new FollowingsMapper(jdbcTemplate);
+        }
     }
 }

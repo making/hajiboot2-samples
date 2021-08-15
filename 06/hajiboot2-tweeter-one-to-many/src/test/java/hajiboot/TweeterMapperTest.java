@@ -2,6 +2,8 @@ package hajiboot;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestConstructor;
 
@@ -14,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TweeterMapperTest {
     private final TweeterMapper tweeterMapper;
 
-    public TweeterMapperTest(JdbcTemplate jdbcTemplate) {
-        this.tweeterMapper = new TweeterMapper(jdbcTemplate);
+    public TweeterMapperTest(TweeterMapper tweeterMapper) {
+        this.tweeterMapper = tweeterMapper;
     }
 
     @Test
@@ -24,5 +26,13 @@ public class TweeterMapperTest {
         assertThat(updated).isEqualTo(1);
         long count = this.tweeterMapper.countByUsername("foo");
         assertThat(count).isEqualTo(1);
+    }
+    
+    @TestConfiguration
+    static class Config {
+        @Bean
+        public TweeterMapper tweeterMapper(JdbcTemplate jdbcTemplate) {
+            return new TweeterMapper(jdbcTemplate);
+        }
     }
 }

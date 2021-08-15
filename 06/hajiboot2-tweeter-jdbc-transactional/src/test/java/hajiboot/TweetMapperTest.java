@@ -7,6 +7,8 @@ import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,8 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TweetMapperTest {
 	private final TweetMapper tweetMapper;
 
-	public TweetMapperTest(JdbcTemplate jdbcTemplate /* (3) */) {
-		this.tweetMapper = new TweetMapper(jdbcTemplate);
+	public TweetMapperTest(TweetMapper tweetMapper) {
+		this.tweetMapper = tweetMapper;
 	}
 
 	@Test
@@ -44,5 +46,13 @@ public class TweetMapperTest {
 
 		List<Tweet> tweets = tweetMapper.findAll();
 		assertThat(tweets).containsExactly(tweet1, tweet2);
+	}
+
+	@TestConfiguration
+	static class Config {
+		@Bean
+		public TweetMapper tweetMapper(JdbcTemplate jdbcTemplate) {
+			return new TweetMapper(jdbcTemplate);
+		}
 	}
 }

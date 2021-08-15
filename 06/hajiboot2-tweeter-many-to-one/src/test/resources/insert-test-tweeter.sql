@@ -1,1 +1,1 @@
-INSERT INTO tweeters (username, email, password, created_at) VALUES ('foo', 'foo@example.com', 'password', now());
+INSERT INTO tweeters (username, email, password, created_at) VALUES ('foo', 'foo@example.com', '{noop}password', now());

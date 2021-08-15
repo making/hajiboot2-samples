@@ -23,7 +23,7 @@ public class TweeterApplicationRunner implements ApplicationRunner {
 	@Override
 	@Transactional
 	public void run(ApplicationArguments args) throws Exception {
-		Tweeter tweeter = new Tweeter("making", "making@example.com", "password",
+		Tweeter tweeter = new Tweeter("making", "making@example.com", "{noop}password",
 				Instant.now());
 		if (this.tweeterMapper.countByUsername(tweeter.getUsername()) == 0) { // (1)
 			this.tweeterMapper.insert(tweeter);

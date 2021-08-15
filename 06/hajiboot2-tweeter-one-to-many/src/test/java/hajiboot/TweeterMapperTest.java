@@ -20,7 +20,7 @@ public class TweeterMapperTest {
 
     @Test
     void insertAndCountByUsername() {
-        int updated = this.tweeterMapper.insert(new Tweeter("foo", "foo@example.com", "password", Instant.now()));
+        int updated = this.tweeterMapper.insert(new Tweeter("foo", "foo@example.com", "{noop}password", Instant.now()));
         assertThat(updated).isEqualTo(1);
         long count = this.tweeterMapper.countByUsername("foo");
         assertThat(count).isEqualTo(1);

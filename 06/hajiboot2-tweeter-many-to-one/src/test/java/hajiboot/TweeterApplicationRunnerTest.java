@@ -30,8 +30,8 @@ public class TweeterApplicationRunnerTest {
         UUID uuid1 = UUID.randomUUID();
         UUID uuid2 = UUID.randomUUID();
         given(tweetMapper.findAll())
-                .willReturn(Arrays.asList(new Tweet(uuid1, "Demo1", new Tweeter("making", "making@example.com", "password", now), now),
-                        new Tweet(uuid2, "Demo2", new Tweeter("making", "making@example.com", "password", now), now)));
+                .willReturn(Arrays.asList(new Tweet(uuid1, "Demo1", new Tweeter("making", "making@example.com", "{noop}password", now), now),
+                        new Tweet(uuid2, "Demo2", new Tweeter("making", "making@example.com", "{noop}password", now), now)));
 
         TweeterApplicationRunner tweeterApplicationRunner = new TweeterApplicationRunner(
                 tweetMapper, tweeterMapper);

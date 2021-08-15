@@ -62,7 +62,7 @@ public class TweetMapperTest {
 		assertThat(tweet.getText()).isEqualTo("test");
 		assertThat(tweet.getTweeter().getUsername()).isEqualTo("foo");
 		assertThat(tweet.getTweeter().getEmail()).isEqualTo("foo@example.com");
-		assertThat(tweet.getTweeter().getPassword()).isEqualTo("password");
+		assertThat(tweet.getTweeter().getPassword()).isEqualTo("{noop}password");
 		assertThat(tweet.getTweeter().getCreatedAt()).isNotNull();
 		assertThat(tweet.getCreatedAt()).isEqualTo(createdAt);
 	}

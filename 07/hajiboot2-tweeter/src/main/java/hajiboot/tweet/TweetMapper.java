@@ -52,6 +52,12 @@ public class TweetMapper {
 				tweetRowMapper, username);
 	}
 
+	public List<Tweet> findByTextContaining(String text) {
+		return this.jdbcTemplate.query(
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE  tw.text LIKE ? ORDER BY tw.created_at DESC",
+				tweetRowMapper, "%" + text + "%");
+	}
+
 	public List<Tweet> findAll() {
 		return this.jdbcTemplate.query(
 				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username",

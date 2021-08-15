@@ -66,6 +66,26 @@ public class TweetControllerTest {
 	}
 
 	@Test
+	void searchTweets() throws Exception {
+		given(this.tweetMapper.findByTextContaining("Hello")).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
+		this.mockMvc.perform(get("/tweets").param("text", "Hello"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()").value(3))
+				.andExpect(jsonPath("$[0].uuid").value(this.tweet3.getUuid().toString()))
+				.andExpect(jsonPath("$[0].text").value("Hello 3!"))
+				.andExpect(jsonPath("$[0].username").value("foo"))
+				.andExpect(jsonPath("$[0].createdAt").value(this.tweet3.getCreatedAt().toString()))
+				.andExpect(jsonPath("$[1].uuid").value(this.tweet2.getUuid().toString()))
+				.andExpect(jsonPath("$[1].text").value("Hello 2!"))
+				.andExpect(jsonPath("$[1].username").value("foo"))
+				.andExpect(jsonPath("$[1].createdAt").value(this.tweet2.getCreatedAt().toString()))
+				.andExpect(jsonPath("$[2].uuid").value(this.tweet1.getUuid().toString()))
+				.andExpect(jsonPath("$[2].text").value("Hello 1!"))
+				.andExpect(jsonPath("$[2].username").value("foo"))
+				.andExpect(jsonPath("$[2].createdAt").value(this.tweet1.getCreatedAt().toString()));
+	}
+
+	@Test
 	void deleteTweet() throws Exception {
 		given(this.tweetMapper.findByUuid(this.tweet1.getUuid())).willReturn(this.tweet1);
 		given(this.tweetMapper.deleteByUuid(this.tweet1.getUuid())).willReturn(1);

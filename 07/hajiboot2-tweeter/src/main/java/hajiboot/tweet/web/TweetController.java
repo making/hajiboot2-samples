@@ -56,7 +56,11 @@ public class TweetController {
 
 	@GetMapping(path = "tweets")
 	public ResponseEntity<List<TweetOutput>> searchTweets(@RequestParam String text) {
-		return ResponseEntity.ok().build();
+		final List<Tweet> tweets = this.tweetMapper.findByTextContaining(text);
+		final List<TweetOutput> tweetOutputs = tweets.stream()
+				.map(TweetOutput::fromTweet)
+				.collect(Collectors.toList());
+		return ResponseEntity.ok(tweetOutputs);
 	}
 
 	@DeleteMapping(path = "tweets/{uuid}")

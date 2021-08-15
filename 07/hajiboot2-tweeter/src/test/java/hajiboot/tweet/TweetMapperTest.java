@@ -87,6 +87,25 @@ public class TweetMapperTest {
 		assertThat(tweets).containsExactly(tweet3, tweet1);
 	}
 
+	@Test
+	void insertAndFindByTextContaining() {
+		Tweet tweet1 = new Tweet(UUID.randomUUID(), "foo1", new Tweeter("foo"),
+				Instant.now());
+		Tweet tweet2 = new Tweet(UUID.randomUUID(), "1bar", new Tweeter("foo2"),
+				Instant.now());
+		Tweet tweet3 = new Tweet(UUID.randomUUID(), "bar3", new Tweeter("foo"),
+				Instant.now());
+
+		int updated1 = tweetMapper.insert(tweet1);
+		assertThat(updated1).isEqualTo(1);
+		int updated2 = tweetMapper.insert(tweet2);
+		assertThat(updated2).isEqualTo(1);
+		int updated3 = tweetMapper.insert(tweet3);
+		assertThat(updated3).isEqualTo(1);
+
+		List<Tweet> tweets = tweetMapper.findByTextContaining("bar");
+		assertThat(tweets).containsExactly(tweet3, tweet2);
+	}
 
 	@Test
 	void insertAndDeleteAndCount() {

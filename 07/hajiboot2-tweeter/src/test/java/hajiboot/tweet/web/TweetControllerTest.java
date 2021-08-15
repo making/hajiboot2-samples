@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -63,6 +64,13 @@ public class TweetControllerTest {
 				.andExpect(jsonPath("$.text").value("Hello 1!"))
 				.andExpect(jsonPath("$.username").value("foo"))
 				.andExpect(jsonPath("$.createdAt").value(this.tweet1.getCreatedAt().toString()));
+	}
+
+	@Test
+	void getTweetNotFound() throws Exception {
+		given(this.tweetMapper.findByUuid(this.tweet1.getUuid())).willThrow(new EmptyResultDataAccessException(1));
+		this.mockMvc.perform(get("/tweets/{uuid}", this.tweet1.getUuid()))
+				.andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -132,6 +140,7 @@ public class TweetControllerTest {
 	@Test
 	void getTweetsByUsername() throws Exception {
 		given(this.tweetMapper.findByUsername("foo")).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
+		given(this.tweeterMapper.countByUsername("foo")).willReturn(1L);
 		this.mockMvc.perform(get("/tweeters/foo/tweets"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.length()").value(3))
@@ -147,6 +156,13 @@ public class TweetControllerTest {
 				.andExpect(jsonPath("$[2].text").value("Hello 1!"))
 				.andExpect(jsonPath("$[2].username").value("foo"))
 				.andExpect(jsonPath("$[2].createdAt").value(this.tweet1.getCreatedAt().toString()));
+	}
+
+	@Test
+	void getTweetsByUsernameNotFound() throws Exception {
+		given(this.tweeterMapper.countByUsername("foo")).willReturn(0L);
+		this.mockMvc.perform(get("/tweeters/demo/tweets"))
+				.andExpect(status().isNotFound());
 	}
 
 	@TestConfiguration

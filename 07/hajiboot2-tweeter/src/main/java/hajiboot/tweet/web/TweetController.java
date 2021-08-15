@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import hajiboot.tweet.Tweet;
 import hajiboot.tweet.TweetMapper;
 import hajiboot.tweeter.Tweeter;
+import hajiboot.tweeter.TweeterMapper;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -32,12 +33,15 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class TweetController {
 	private final TweetMapper tweetMapper;
 
+	private final TweeterMapper tweeterMapper;
+
 	private final IdGenerator idGenerator;
 
 	private final Clock clock;
 
-	public TweetController(TweetMapper tweetMapper, IdGenerator idGenerator, Clock clock) {
+	public TweetController(TweetMapper tweetMapper, TweeterMapper tweeterMapper, IdGenerator idGenerator, Clock clock) {
 		this.tweetMapper = tweetMapper;
+		this.tweeterMapper = tweeterMapper;
 		this.idGenerator = idGenerator;
 		this.clock = clock;
 	}
@@ -87,6 +91,9 @@ public class TweetController {
 
 	@GetMapping(path = "tweeters/{username}/tweets")
 	public ResponseEntity<List<TweetOutput>> getTweetsByUsername(@PathVariable String username) {
+		if (this.tweeterMapper.countByUsername(username) == 0L) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("The given username is not found (username=%s)", username));
+		}
 		final List<Tweet> tweets = this.tweetMapper.findByUsername(username);
 		final List<TweetOutput> tweetOutputs = tweets.stream()
 				.map(TweetOutput::fromTweet)

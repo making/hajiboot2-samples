@@ -17,6 +17,12 @@ public class TweeterMapper {
 				"SELECT count(*) FROM tweeters WHERE username = ?", Long.class, username);
 	}
 
+	public Tweeter findByUsername(String username) {
+		return this.jdbcTemplate.queryForObject("SELECT username, email, password, created_at FROM tweeters WHERE username = ?",
+				(rs, i) -> new Tweeter(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getTimestamp("created_at").toInstant()),
+				username);
+	}
+
 	@Transactional
 	public int insert(Tweeter tweeter) {
 		return this.jdbcTemplate.update(

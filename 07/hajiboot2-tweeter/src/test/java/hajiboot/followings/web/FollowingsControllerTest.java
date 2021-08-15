@@ -1,18 +1,22 @@
 package hajiboot.followings.web;
 
+import java.time.Instant;
 import java.util.List;
 
 import hajiboot.followings.Followings;
 import hajiboot.followings.FollowingsMapper;
 import hajiboot.tweeter.Tweeter;
+import hajiboot.tweeter.TweeterMapper;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -28,6 +32,9 @@ class FollowingsControllerTest {
 
 	@MockBean
 	FollowingsMapper followingsMapper;
+
+	@MockBean
+	TweeterMapper tweeterMapper;
 
 	@Test
 	void getFollowingByUsername() throws Exception {
@@ -58,9 +65,11 @@ class FollowingsControllerTest {
 	@Test
 	void putFollowings() throws Exception {
 		given(this.followingsMapper.insert("foo1", "foo2")).willReturn(1);
+		given(this.tweeterMapper.findByUsername("foo1")).willReturn(new Tweeter("foo1", "foo1@example.com", "{noop}password", Instant.now()));
 		this.mockMvc.perform(put("/followings")
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo1", "password", UTF_8))
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"follower\":\"foo1\", \"followee\":\"foo2\"}"))
+						.content("{\"followee\":\"foo2\"}"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.username").value("foo2"));
 		verify(this.followingsMapper).insert("foo1", "foo2");
@@ -68,23 +77,26 @@ class FollowingsControllerTest {
 
 	@Test
 	void putFollowingsInvalid() throws Exception {
+		given(this.tweeterMapper.findByUsername("foo1")).willReturn(new Tweeter("foo1", "foo1@example.com", "{noop}password", Instant.now()));
 		this.mockMvc.perform(put("/followings")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"follower\":\"\", \"followee\":\"\"}"))
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo1", "password", UTF_8))
+						.content("{\"followee\":\"\"}"))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
-				.andExpect(jsonPath("$.details.length()").value(2))
-				.andExpect(jsonPath("$.details[*].followee").value("must not be blank"))
-				.andExpect(jsonPath("$.details[*].follower").value("must not be blank"));
+				.andExpect(jsonPath("$.details.length()").value(1))
+				.andExpect(jsonPath("$.details[*].followee").value("must not be blank"));
 	}
 
 	@Test
 	void deleteFollowings() throws Exception {
 		given(this.followingsMapper.delete("foo1", "foo2")).willReturn(1);
+		given(this.tweeterMapper.findByUsername("foo")).willReturn(new Tweeter("foo1", "foo1@example.com", "{noop}password", Instant.now()));
 		this.mockMvc.perform(delete("/followings")
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo", "password", UTF_8))
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"follower\":\"foo1\", \"followee\":\"foo2\"}"))
+						.content("{\"followee\":\"foo2\"}"))
 				.andExpect(status().isNoContent());
 		verify(this.followingsMapper).delete("foo1", "foo2");
 	}

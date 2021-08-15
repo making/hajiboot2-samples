@@ -9,6 +9,7 @@ import java.util.UUID;
 import hajiboot.tweet.Tweet;
 import hajiboot.tweet.TweetMapper;
 import hajiboot.tweeter.Tweeter;
+import hajiboot.tweeter.TweeterMapper;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.util.IdGenerator;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -37,6 +40,9 @@ public class TweetControllerTest {
 
 	@MockBean
 	TweetMapper tweetMapper;
+
+	@MockBean
+	TweeterMapper tweeterMapper;
 
 	@MockBean
 	IdGenerator idGenerator;
@@ -61,8 +67,11 @@ public class TweetControllerTest {
 
 	@Test
 	void deleteTweet() throws Exception {
+		given(this.tweetMapper.findByUuid(this.tweet1.getUuid())).willReturn(this.tweet1);
 		given(this.tweetMapper.deleteByUuid(this.tweet1.getUuid())).willReturn(1);
-		this.mockMvc.perform(delete("/tweets/{uuid}", this.tweet1.getUuid()))
+		given(this.tweeterMapper.findByUsername("foo")).willReturn(new Tweeter("foo", "foo@example.com", "{noop}password", Instant.now()));
+		this.mockMvc.perform(delete("/tweets/{uuid}", this.tweet1.getUuid())
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo", "password", UTF_8)))
 				.andExpect(status().isNoContent());
 		verify(this.tweetMapper).deleteByUuid(this.tweet1.getUuid());
 	}
@@ -71,8 +80,10 @@ public class TweetControllerTest {
 	void postTweets() throws Exception {
 		final UUID uuid = UUID.randomUUID();
 		given(this.tweetMapper.insert(any())).willReturn(1);
+		given(this.tweeterMapper.findByUsername("foo")).willReturn(new Tweeter("foo", "foo@example.com", "{noop}password", Instant.now()));
 		given(this.idGenerator.generateId()).willReturn(uuid);
 		this.mockMvc.perform(post("/tweets")
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo", "password", UTF_8))
 						.contentType(MediaType.APPLICATION_JSON)
 						.content("{\"username\":\"foo\", \"text\":\"Hello Tweeter!\"}"))
 				.andExpect(status().isCreated())
@@ -86,15 +97,16 @@ public class TweetControllerTest {
 
 	@Test
 	void postTweetsInvalid() throws Exception {
+		given(this.tweeterMapper.findByUsername("foo")).willReturn(new Tweeter("foo", "foo@example.com", "{noop}password", Instant.now()));
 		this.mockMvc.perform(post("/tweets")
+						.header(HttpHeaders.AUTHORIZATION, "Basic " + HttpHeaders.encodeBasicAuth("foo", "password", UTF_8))
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"username\":\"\", \"text\":\"\"}"))
+						.content("{\"text\":\"\"}"))
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
-				.andExpect(jsonPath("$.details.length()").value(2))
-				.andExpect(jsonPath("$.details[*].username").value("must not be blank"))
-				.andExpect(jsonPath("$.details[*].text").value("must not be blank"));
+				.andExpect(jsonPath("$.details.length()").value(1))
+				.andExpect(jsonPath("$.details[0].text").value("must not be blank"));
 	}
 
 	@Test

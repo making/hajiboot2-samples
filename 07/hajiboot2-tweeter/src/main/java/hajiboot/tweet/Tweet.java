@@ -1,57 +1,64 @@
 package hajiboot.tweet;
 
-import hajiboot.tweeter.Tweeter;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
+import hajiboot.tweeter.Tweeter;
+
 public class Tweet implements Serializable {
-    private final UUID uuid;
-    private final String text;
-    private final Tweeter tweeter;
-    private final Instant createdAt;
+	private final UUID uuid;
 
-    public Tweet(UUID uuid, String text, Tweeter tweeter, Instant createdAt) {
-        this.uuid = uuid;
-        this.text = text;
-        this.tweeter = tweeter;
-        this.createdAt = createdAt;
-    }
+	private final String text;
 
-    public UUID getUuid() {
-        return uuid;
-    }
+	private final Tweeter tweeter;
 
-    public String getText() {
-        return text;
-    }
+	private final Instant createdAt;
 
-    public Tweeter getTweeter() {
-        return tweeter;
-    }
+	public Tweet(UUID uuid, String text, Tweeter tweeter, Instant createdAt) {
+		this.uuid = uuid;
+		this.text = text;
+		this.tweeter = tweeter;
+		this.createdAt = createdAt;
+	}
 
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
+	public UUID getUuid() {
+		return uuid;
+	}
 
-    @Override
-    public String toString() {
-        return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", tweeter="
-                + tweeter + ", createdAt=" + createdAt + '}';
-    }
+	public String getText() {
+		return text;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        final Tweet tweet = (Tweet) o;
-        return Objects.equals(uuid, tweet.uuid);
-    }
+	public Tweeter getTweeter() {
+		return tweeter;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid);
-    }
+	public Instant getCreatedAt() {
+		return createdAt;
+	}
+
+	@Override
+	public String toString() {
+		return "Tweet{" + "uuid=" + uuid + ", text='" + text + '\'' + ", tweeter="
+				+ tweeter + ", createdAt=" + createdAt + '}';
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		final Tweet tweet = (Tweet) o;
+		return Objects.equals(uuid, tweet.uuid);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(uuid);
+	}
+
+	public boolean isOwnedBy(Tweeter tweeter) {
+		return Objects.equals(this.tweeter, tweeter);
+	}
 }

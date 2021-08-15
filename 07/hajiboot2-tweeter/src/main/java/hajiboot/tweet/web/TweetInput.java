@@ -11,21 +11,12 @@ class TweetInput {
 	@Size(max = 140)
 	private final String text;
 
-	@NotBlank
-	private final String username;
-
 	@JsonCreator
-	public TweetInput(@JsonProperty("text") String text,
-			@JsonProperty("username") String username /* TODO from Authentication */) {
+	public TweetInput(@JsonProperty("text") String text) {
 		this.text = text;
-		this.username = username;
 	}
 
 	public String getText() {
 		return text;
-	}
-
-	public String getUsername() {
-		return username;
 	}
 }

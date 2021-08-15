@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import hajiboot.followings.Followings;
 import hajiboot.followings.FollowingsMapper;
+import hajiboot.tweeter.Tweeter;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,15 +44,15 @@ public class FollowingsController {
 	}
 
 	@PutMapping(path = "followings")
-	public ResponseEntity<FollowingOutput> putFollowings(@Validated @RequestBody FollowingInput input) {
-		this.followingsMapper.insert(input.getFollower(), input.getFollowee());
+	public ResponseEntity<FollowingOutput> putFollowings(@Validated @RequestBody FollowingInput input, @RequestAttribute("tweeter") Tweeter tweeter) {
+		this.followingsMapper.insert(tweeter.getUsername(), input.getFollowee());
 		final FollowingOutput output = new FollowingOutput(input.getFollowee());
 		return ResponseEntity.ok(output);
 	}
 
 	@DeleteMapping(path = "followings")
-	public ResponseEntity<Void> deleteFollowings(@RequestBody FollowingInput input) {
-		this.followingsMapper.delete(input.getFollower(), input.getFollowee());
+	public ResponseEntity<Void> deleteFollowings(@RequestBody FollowingInput input, @RequestAttribute("tweeter") Tweeter tweeter) {
+		this.followingsMapper.delete(tweeter.getUsername(), input.getFollowee());
 		return ResponseEntity.noContent().build();
 	}
 }

@@ -66,9 +66,9 @@ public class TweeterControllerTest {
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
 				.andExpect(jsonPath("$.details.length()").value(3))
-				.andExpect(jsonPath("$.details[0].username").value("must not be blank"))
-				.andExpect(jsonPath("$.details[1].password").value("must not be blank"))
-				.andExpect(jsonPath("$.details[2].email").value("must not be blank"));
+				.andExpect(jsonPath("$.details[*].username").value("must not be blank"))
+				.andExpect(jsonPath("$.details[*].email").value("must not be blank"))
+				.andExpect(jsonPath("$.details[*].password").value("must not be blank"));
 	}
 
 	@TestConfiguration

@@ -41,11 +41,11 @@ public class TweetControllerTest {
 	@MockBean
 	IdGenerator idGenerator;
 
-	Tweet tweet1 = new Tweet(UUID.randomUUID(), "Hello 1!", new Tweeter("test"), Instant.now());
+	Tweet tweet1 = new Tweet(UUID.randomUUID(), "Hello 1!", new Tweeter("demo"), Instant.now());
 
-	Tweet tweet2 = new Tweet(UUID.randomUUID(), "Hello 2!", new Tweeter("test"), Instant.now());
+	Tweet tweet2 = new Tweet(UUID.randomUUID(), "Hello 2!", new Tweeter("demo"), Instant.now());
 
-	Tweet tweet3 = new Tweet(UUID.randomUUID(), "Hello 3!", new Tweeter("test"), Instant.now());
+	Tweet tweet3 = new Tweet(UUID.randomUUID(), "Hello 3!", new Tweeter("demo"), Instant.now());
 
 
 	@Test
@@ -55,7 +55,7 @@ public class TweetControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.uuid").value(this.tweet1.getUuid().toString()))
 				.andExpect(jsonPath("$.text").value("Hello 1!"))
-				.andExpect(jsonPath("$.username").value("test"))
+				.andExpect(jsonPath("$.username").value("demo"))
 				.andExpect(jsonPath("$.createdAt").value(this.tweet1.getCreatedAt().toString()));
 	}
 
@@ -74,10 +74,10 @@ public class TweetControllerTest {
 		given(this.idGenerator.generateId()).willReturn(uuid);
 		this.mockMvc.perform(post("/tweets")
 						.contentType(MediaType.APPLICATION_JSON)
-						.content("{\"username\":\"test\", \"text\":\"Hello Tweeter!\"}"))
+						.content("{\"username\":\"demo\", \"text\":\"Hello Tweeter!\"}"))
 				.andExpect(status().isCreated())
 				.andExpect(jsonPath("$.uuid").value(uuid.toString()))
-				.andExpect(jsonPath("$.username").value("test"))
+				.andExpect(jsonPath("$.username").value("demo"))
 				.andExpect(jsonPath("$.text").value("Hello Tweeter!"))
 				.andExpect(jsonPath("$.createdAt").value("2021-08-14T00:00:00Z"))
 				.andExpect(header().string("Location", "http://localhost/tweets/" + uuid));
@@ -93,27 +93,27 @@ public class TweetControllerTest {
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
 				.andExpect(jsonPath("$.details.length()").value(2))
-				.andExpect(jsonPath("$.details[0].username").value("must not be blank"))
-				.andExpect(jsonPath("$.details[1].text").value("must not be blank"));
+				.andExpect(jsonPath("$.details[*].username").value("must not be blank"))
+				.andExpect(jsonPath("$.details[*].text").value("must not be blank"));
 	}
 
 	@Test
 	void getTweetsByUsername() throws Exception {
-		given(this.tweetMapper.findByUsername("test")).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
-		this.mockMvc.perform(get("/tweeters/test/tweets"))
+		given(this.tweetMapper.findByUsername("demo")).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
+		this.mockMvc.perform(get("/tweeters/demo/tweets"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.length()").value(3))
 				.andExpect(jsonPath("$[0].uuid").value(this.tweet3.getUuid().toString()))
 				.andExpect(jsonPath("$[0].text").value("Hello 3!"))
-				.andExpect(jsonPath("$[0].username").value("test"))
+				.andExpect(jsonPath("$[0].username").value("demo"))
 				.andExpect(jsonPath("$[0].createdAt").value(this.tweet3.getCreatedAt().toString()))
 				.andExpect(jsonPath("$[1].uuid").value(this.tweet2.getUuid().toString()))
 				.andExpect(jsonPath("$[1].text").value("Hello 2!"))
-				.andExpect(jsonPath("$[1].username").value("test"))
+				.andExpect(jsonPath("$[1].username").value("demo"))
 				.andExpect(jsonPath("$[1].createdAt").value(this.tweet2.getCreatedAt().toString()))
 				.andExpect(jsonPath("$[2].uuid").value(this.tweet1.getUuid().toString()))
 				.andExpect(jsonPath("$[2].text").value("Hello 1!"))
-				.andExpect(jsonPath("$[2].username").value("test"))
+				.andExpect(jsonPath("$[2].username").value("demo"))
 				.andExpect(jsonPath("$[2].createdAt").value(this.tweet1.getCreatedAt().toString()));
 	}
 

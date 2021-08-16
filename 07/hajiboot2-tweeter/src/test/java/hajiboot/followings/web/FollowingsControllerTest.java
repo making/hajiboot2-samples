@@ -86,7 +86,8 @@ class FollowingsControllerTest {
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
 				.andExpect(jsonPath("$.details.length()").value(1))
-				.andExpect(jsonPath("$.details[*].followee").value("must not be blank"));
+				.andExpect(jsonPath("$.details[0].name").value("followee"))
+				.andExpect(jsonPath("$.details[0].message").value("\"followee\" must not be blank"));
 	}
 
 	@Test

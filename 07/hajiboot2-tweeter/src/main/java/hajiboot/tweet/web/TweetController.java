@@ -8,6 +8,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import am.ik.yavi.builder.ValidatorBuilder;
+import am.ik.yavi.core.ConstraintViolationsException;
+import am.ik.yavi.core.Validator;
 import hajiboot.PaginatedResult;
 import hajiboot.tweet.Tweet;
 import hajiboot.tweet.TweetMapper;
@@ -18,7 +21,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.IdGenerator;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,11 +41,17 @@ public class TweetController {
 
 	private final Clock clock;
 
+	private final Validator<TweetInput> tweetInputValidator;
+
 	public TweetController(TweetMapper tweetMapper, TweeterMapper tweeterMapper, IdGenerator idGenerator, Clock clock) {
 		this.tweetMapper = tweetMapper;
 		this.tweeterMapper = tweeterMapper;
 		this.idGenerator = idGenerator;
 		this.clock = clock;
+		this.tweetInputValidator = ValidatorBuilder.<TweetInput>of()
+				.constraint(TweetInput::getText, "text", c -> c.notBlank()
+						.lessThanOrEqual(140))
+				.build();
 	}
 
 	@GetMapping(path = "tweets/{uuid}")
@@ -91,7 +99,8 @@ public class TweetController {
 	}
 
 	@PostMapping(path = "tweets")
-	public ResponseEntity<TweetOutput> postTweets(@Validated @RequestBody TweetInput input, @RequestAttribute("tweeter") Tweeter tweeter, UriComponentsBuilder builder) {
+	public ResponseEntity<TweetOutput> postTweets(@RequestBody TweetInput input, @RequestAttribute("tweeter") Tweeter tweeter, UriComponentsBuilder builder) {
+		this.tweetInputValidator.validate(input).throwIfInvalid(ConstraintViolationsException::new);
 		final Tweet tweet = new Tweet(this.idGenerator.generateId(), input.getText(), new Tweeter(tweeter.getUsername()), Instant.now(this.clock));
 		this.tweetMapper.insert(tweet);
 		final TweetOutput output = TweetOutput.fromTweet(tweet);
@@ -105,7 +114,7 @@ public class TweetController {
 			@RequestParam(required = false) Instant until,
 			@RequestParam(defaultValue = "10") int limit,
 			UriComponentsBuilder builder) {
-		if (this.tweeterMapper.countByUsername(username) == 0L) {
+		if (this.tweeterMapper.isUnusedUsername(username)) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
 					.body(Map.of("error", "Not Found",
 							"status", 404,

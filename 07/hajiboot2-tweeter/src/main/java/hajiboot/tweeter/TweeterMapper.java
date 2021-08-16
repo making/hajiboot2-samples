@@ -17,6 +17,19 @@ public class TweeterMapper {
 				"SELECT count(*) FROM tweeters WHERE username = ?", Long.class, username);
 	}
 
+	public long countByEmail(String email) {
+		return this.jdbcTemplate.queryForObject(
+				"SELECT count(*) FROM tweeters WHERE email = ?", Long.class, email);
+	}
+
+	public boolean isUnusedUsername(String username) {
+		return this.countByUsername(username) == 0;
+	}
+
+	public boolean isUnusedEmail(String email) {
+		return this.countByEmail(email) == 0;
+	}
+
 	public Tweeter findByUsername(String username) {
 		return this.jdbcTemplate.queryForObject("SELECT username, email, password, created_at FROM tweeters WHERE username = ?",
 				(rs, i) -> new Tweeter(rs.getString("username"), rs.getString("email"), rs.getString("password"), rs.getTimestamp("created_at").toInstant()),

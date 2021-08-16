@@ -141,13 +141,14 @@ public class TweetControllerTest {
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
 				.andExpect(jsonPath("$.details.length()").value(1))
-				.andExpect(jsonPath("$.details[0].text").value("must not be blank"));
+				.andExpect(jsonPath("$.details[0].name").value("text"))
+				.andExpect(jsonPath("$.details[0].message").value("\"text\" must not be blank"));
 	}
 
 	@Test
 	void getTweetsByUsername() throws Exception {
 		given(this.tweetMapper.findByUsernameSince(eq("foo"), any(), anyInt())).willReturn(List.of(this.tweet3, this.tweet2, this.tweet1));
-		given(this.tweeterMapper.countByUsername("foo")).willReturn(1L);
+		given(this.tweeterMapper.isUnusedUsername("foo")).willReturn(false);
 		this.mockMvc.perform(get("/tweeters/foo/tweets"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.data.length()").value(3))
@@ -169,7 +170,7 @@ public class TweetControllerTest {
 
 	@Test
 	void getTweetsByUsernameNotFound() throws Exception {
-		given(this.tweeterMapper.countByUsername("demo")).willReturn(0L);
+		given(this.tweeterMapper.isUnusedUsername("demo")).willReturn(true);
 		this.mockMvc.perform(get("/tweeters/demo/tweets"))
 				.andExpect(status().isNotFound())
 				.andExpect(jsonPath("$.error").value("Not Found"))

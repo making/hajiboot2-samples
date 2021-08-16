@@ -30,6 +30,14 @@ public class TweeterMapperTest {
 	}
 
 	@Test
+	void insertAndCountByEmail() {
+		int updated = this.tweeterMapper.insert(new Tweeter("foo", "foo@example.com", "{noop}password", Instant.now()));
+		assertThat(updated).isEqualTo(1);
+		long count = this.tweeterMapper.countByEmail("foo@example.com");
+		assertThat(count).isEqualTo(1);
+	}
+
+	@Test
 	void insertAndFindByUsername() {
 		final Instant createdAt = Instant.now();
 		int updated = this.tweeterMapper.insert(new Tweeter("foo", "foo@example.com", "{noop}password", createdAt));

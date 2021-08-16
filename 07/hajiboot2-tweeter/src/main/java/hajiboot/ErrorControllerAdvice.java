@@ -2,6 +2,7 @@ package hajiboot;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
@@ -14,7 +15,7 @@ public class ErrorControllerAdvice {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String, ?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
 		final List<Map<String, String>> details = e.getFieldErrors().stream()
-				.map(error -> Map.of(error.getField(), error.getDefaultMessage()))
+				.map(error -> Map.of(error.getField(), Objects.requireNonNull(error.getDefaultMessage(), "")))
 				.collect(Collectors.toList());
 		return ResponseEntity.badRequest().body(Map.of(
 				"error", "Bad Request",

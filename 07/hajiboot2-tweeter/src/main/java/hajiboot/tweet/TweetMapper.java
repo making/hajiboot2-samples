@@ -1,7 +1,10 @@
 package hajiboot.tweet;
 
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import hajiboot.tweeter.Tweeter;
 
@@ -42,20 +45,50 @@ public class TweetMapper {
 
 	public Tweet findByUuid(UUID uuid) {
 		return this.jdbcTemplate.queryForObject(
-				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE  tw.uuid = ?",
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.uuid = ?",
 				tweetRowMapper, uuid.toString());
 	}
 
 	public List<Tweet> findByUsername(String username) {
 		return this.jdbcTemplate.query(
-				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE  tw.username = ? ORDER BY tw.created_at DESC",
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.username = ? ORDER BY tw.created_at DESC",
 				tweetRowMapper, username);
+	}
+
+	public List<Tweet> findByUsernameSince(String username, Instant since, int limit) {
+		return this.jdbcTemplate.query(
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.username = ? AND tw.created_at < ? ORDER BY tw.created_at DESC LIMIT ?",
+				tweetRowMapper, username, since, limit);
+	}
+
+	public List<Tweet> findByUsernameUntil(String username, Instant until, int limit) {
+		return this.jdbcTemplate.query(
+						"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.username = ? AND tw.created_at > ? ORDER BY tw.created_at ASC LIMIT ?",
+						tweetRowMapper, username, until, limit)
+				.stream()
+				.sorted(Comparator.comparing(Tweet::getCreatedAt).reversed())
+				.collect(Collectors.toList());
 	}
 
 	public List<Tweet> findByTextContaining(String text) {
 		return this.jdbcTemplate.query(
-				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE  tw.text LIKE ? ORDER BY tw.created_at DESC",
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.text LIKE ? ORDER BY tw.created_at DESC",
 				tweetRowMapper, "%" + text + "%");
+	}
+
+	public List<Tweet> findByTextContainingSince(String text, Instant since, int limit) {
+		return this.jdbcTemplate.query(
+				"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.text LIKE ? AND tw.created_at < ? ORDER BY tw.created_at DESC LIMIT ?",
+				tweetRowMapper, "%" + text + "%", since, limit);
+	}
+
+	public List<Tweet> findByTextContainingUntil(String text, Instant until, int limit) {
+		return this.jdbcTemplate.query(
+						"SELECT tw.uuid, tw.text, tw.username, tw.created_at AS tw_created_at, tr.email, tr.password, tr.created_at AS tr_created_at FROM tweets AS tw INNER JOIN tweeters AS tr ON tw.username = tr.username WHERE tw.text LIKE ? AND tw.created_at > ? ORDER BY tw.created_at ASC LIMIT ?",
+						tweetRowMapper, "%" + text + "%", until, limit)
+				.stream()
+				.sorted(Comparator.comparing(Tweet::getCreatedAt).reversed())
+				.collect(Collectors.toList());
 	}
 
 	public List<Tweet> findAll() {

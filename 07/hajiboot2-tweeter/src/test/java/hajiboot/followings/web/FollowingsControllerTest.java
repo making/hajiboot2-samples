@@ -43,10 +43,10 @@ class FollowingsControllerTest {
 
 		this.mockMvc.perform(get("/tweeters/test/followings"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.length()").value(3))
-				.andExpect(jsonPath("$[0].username").value("foo3"))
-				.andExpect(jsonPath("$[1].username").value("foo2"))
-				.andExpect(jsonPath("$[2].username").value("foo1"));
+				.andExpect(jsonPath("$.data.length()").value(3))
+				.andExpect(jsonPath("$.data[0].username").value("foo3"))
+				.andExpect(jsonPath("$.data[1].username").value("foo2"))
+				.andExpect(jsonPath("$.data[2].username").value("foo1"));
 	}
 
 	@Test
@@ -56,10 +56,10 @@ class FollowingsControllerTest {
 
 		this.mockMvc.perform(get("/tweeters/test/followers"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.length()").value(3))
-				.andExpect(jsonPath("$[0].username").value("foo3"))
-				.andExpect(jsonPath("$[1].username").value("foo2"))
-				.andExpect(jsonPath("$[2].username").value("foo1"));
+				.andExpect(jsonPath("$.data.length()").value(3))
+				.andExpect(jsonPath("$.data[0].username").value("foo3"))
+				.andExpect(jsonPath("$.data[1].username").value("foo2"))
+				.andExpect(jsonPath("$.data[2].username").value("foo1"));
 	}
 
 	@Test

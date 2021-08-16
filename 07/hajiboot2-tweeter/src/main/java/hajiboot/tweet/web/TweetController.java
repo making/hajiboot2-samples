@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import hajiboot.PaginatedResult;
 import hajiboot.tweet.Tweet;
 import hajiboot.tweet.TweetMapper;
 import hajiboot.tweeter.Tweeter;
@@ -61,12 +62,19 @@ public class TweetController {
 	}
 
 	@GetMapping(path = "tweets")
-	public ResponseEntity<List<TweetOutput>> searchTweets(@RequestParam String text) {
-		final List<Tweet> tweets = this.tweetMapper.findByTextContaining(text);
+	public ResponseEntity<PaginatedResult<TweetOutput>> searchTweets(@RequestParam String text,
+			@RequestParam(defaultValue = "9999-12-31T23:59:59Z") Instant since,
+			@RequestParam(required = false) Instant until,
+			@RequestParam(defaultValue = "10") int limit,
+			UriComponentsBuilder builder) {
+		final List<Tweet> tweets = until != null ?
+				this.tweetMapper.findByTextContainingUntil(text, until, limit) :
+				this.tweetMapper.findByTextContainingSince(text, since, limit);
 		final List<TweetOutput> tweetOutputs = tweets.stream()
 				.map(TweetOutput::fromTweet)
 				.collect(Collectors.toList());
-		return ResponseEntity.ok(tweetOutputs);
+		final URI uri = builder.path("tweets").queryParam("text", text).build().toUri();
+		return ResponseEntity.ok(new PaginatedResult<>(tweetOutputs, TweetOutput::getCreatedAt, uri, limit));
 	}
 
 	@DeleteMapping(path = "tweets/{uuid}")
@@ -92,17 +100,24 @@ public class TweetController {
 	}
 
 	@GetMapping(path = "tweeters/{username}/tweets")
-	public ResponseEntity<?> getTweetsByUsername(@PathVariable String username) {
+	public ResponseEntity<?> getTweetsByUsername(@PathVariable String username,
+			@RequestParam(defaultValue = "9999-12-31T23:59:59Z") Instant since,
+			@RequestParam(required = false) Instant until,
+			@RequestParam(defaultValue = "10") int limit,
+			UriComponentsBuilder builder) {
 		if (this.tweeterMapper.countByUsername(username) == 0L) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND)
 					.body(Map.of("error", "Not Found",
 							"status", 404,
 							"message", String.format("The given username is not found (username=%s)", username)));
 		}
-		final List<Tweet> tweets = this.tweetMapper.findByUsername(username);
+		final List<Tweet> tweets = until != null ?
+				this.tweetMapper.findByUsernameUntil(username, until, limit) :
+				this.tweetMapper.findByUsernameSince(username, since, limit);
 		final List<TweetOutput> tweetOutputs = tweets.stream()
 				.map(TweetOutput::fromTweet)
 				.collect(Collectors.toList());
-		return ResponseEntity.ok(tweetOutputs);
+		final URI uri = builder.path("tweeters/{username}/tweets").build(username);
+		return ResponseEntity.ok(new PaginatedResult<>(tweetOutputs, TweetOutput::getCreatedAt, uri, limit));
 	}
 }

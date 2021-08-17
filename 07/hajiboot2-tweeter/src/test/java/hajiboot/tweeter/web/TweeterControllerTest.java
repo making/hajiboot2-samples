@@ -68,17 +68,14 @@ public class TweeterControllerTest {
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
-				.andExpect(jsonPath("$.details.length()").value(5))
-				.andExpect(jsonPath("$.details[0].name").value("username"))
-				.andExpect(jsonPath("$.details[0].message").value("\"username\" must not be blank"))
-				.andExpect(jsonPath("$.details[1].name").value("username"))
-				.andExpect(jsonPath("$.details[1].message").value("\"username\" must match [a-zA-Z0-9_]+"))
-				.andExpect(jsonPath("$.details[2].name").value("email"))
-				.andExpect(jsonPath("$.details[2].message").value("\"email\" must be a valid email address"))
-				.andExpect(jsonPath("$.details[3].name").value("password"))
-				.andExpect(jsonPath("$.details[3].message").value("\"password\" must meet Numbers policy"))
-				.andExpect(jsonPath("$.details[4].name").value("password"))
-				.andExpect(jsonPath("$.details[4].message").value("\"password\" must meet Uppercase policy"));
+				.andExpect(jsonPath("$.details.username.length()").value(2))
+				.andExpect(jsonPath("$.details.username[0]").value("\"username\" must not be blank"))
+				.andExpect(jsonPath("$.details.username[1]").value("\"username\" must match [a-zA-Z0-9_]+"))
+				.andExpect(jsonPath("$.details.email.length()").value(1))
+				.andExpect(jsonPath("$.details.email[0]").value("\"email\" must be a valid email address"))
+				.andExpect(jsonPath("$.details.password.length()").value(2))
+				.andExpect(jsonPath("$.details.password[0]").value("\"password\" must meet Numbers policy"))
+				.andExpect(jsonPath("$.details.password[1]").value("\"password\" must meet Uppercase policy"));
 	}
 
 	@Test
@@ -91,11 +88,10 @@ public class TweeterControllerTest {
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
-				.andExpect(jsonPath("$.details.length()").value(2))
-				.andExpect(jsonPath("$.details[0].name").value("username"))
-				.andExpect(jsonPath("$.details[0].message").value("The given username is already used"))
-				.andExpect(jsonPath("$.details[1].name").value("email"))
-				.andExpect(jsonPath("$.details[1].message").value("The given email is already used"));
+				.andExpect(jsonPath("$.details.username.length()").value(1))
+				.andExpect(jsonPath("$.details.username[0]").value("The given username is already used"))
+				.andExpect(jsonPath("$.details.email.length()").value(1))
+				.andExpect(jsonPath("$.details.email[0]").value("The given email is already used"));
 	}
 
 	@TestConfiguration

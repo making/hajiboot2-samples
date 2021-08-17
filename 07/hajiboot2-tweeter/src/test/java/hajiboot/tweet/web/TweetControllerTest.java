@@ -140,9 +140,8 @@ public class TweetControllerTest {
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.status").value(400))
 				.andExpect(jsonPath("$.error").value("Bad Request"))
-				.andExpect(jsonPath("$.details.length()").value(1))
-				.andExpect(jsonPath("$.details[0].name").value("text"))
-				.andExpect(jsonPath("$.details[0].message").value("\"text\" must not be blank"));
+				.andExpect(jsonPath("$.details.text.length()").value(1))
+				.andExpect(jsonPath("$.details.text[0]").value("\"text\" must not be blank"));
 	}
 
 	@Test
